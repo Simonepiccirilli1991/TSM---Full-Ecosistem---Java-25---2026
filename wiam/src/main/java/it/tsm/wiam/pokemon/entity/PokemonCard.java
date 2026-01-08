@@ -21,5 +21,6 @@ public class PokemonCard {
     private String casaGradazione;
     private String votoGradazione;
     private String codiceGradazione;
+    private byte[] foto;
     private Vendita vendita;
 }

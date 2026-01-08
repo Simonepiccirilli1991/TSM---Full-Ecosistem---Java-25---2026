@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import static it.tsm.wiam.pokemon.util.PokemonCostants.CodiciErrori.*;
+
 @Slf4j
 @RestControllerAdvice
 public class PokemonExcptHandler {
@@ -24,9 +26,9 @@ public class PokemonExcptHandler {
     private HttpStatus statusHandler(String codice){
 
        return switch (codice) {
-            case "PKM-404" -> HttpStatus.NOT_FOUND;
-            case "PKM-400" -> HttpStatus.BAD_REQUEST;
-            case "PKM-403" -> HttpStatus.CONFLICT;
+            case NOT_FOUND -> HttpStatus.NOT_FOUND;
+            case BAD_REQUEST -> HttpStatus.BAD_REQUEST;
+            case CONFLICT -> HttpStatus.CONFLICT;
 
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };

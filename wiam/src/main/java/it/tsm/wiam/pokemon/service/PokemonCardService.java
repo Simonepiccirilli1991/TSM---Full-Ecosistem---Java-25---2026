@@ -4,9 +4,12 @@ import it.tsm.wiam.pokemon.entity.PokemonCard;
 import it.tsm.wiam.pokemon.model.AddPokemonCardRequest;
 import it.tsm.wiam.pokemon.model.AddPokemonCardResponse;
 import it.tsm.wiam.pokemon.repository.PokemonCardRepo;
+import it.tsm.wiam.pokemon.util.PokemonCostants;
+import it.tsm.wiam.pokemon.util.PokemonUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.format.DateTimeFormatter;
 
@@ -16,9 +19,11 @@ import java.time.format.DateTimeFormatter;
 public class PokemonCardService {
 
     private final PokemonCardRepo pokemonCardRepo;
+    private final PokemonUtil pokemonUtil;
+    private final PhotoGridFsService photoGridFsService;
 
 
-
+    @Transactional
     public AddPokemonCardResponse aggiungiCartaPokemon(AddPokemonCardRequest request){
         log.info("Aggiungi Carta Pokemon service started with raw request: {}",request);
         // valido request
@@ -29,7 +34,13 @@ public class PokemonCardService {
         acquistoPokemon.setEspansione(request.espansione());
         acquistoPokemon.setPrezzoAcquisto(request.prezzoAcquisto());
         acquistoPokemon.setDataInserimentoAcquisto(request.dataInserimentoAcquisto().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        acquistoPokemon.setStato("ACQUISTATO");
+        acquistoPokemon.setStato(PokemonCostants.Stati.ACQUISTATO);
+        // genero id
+        var cardId = pokemonUtil.createIdPokemonCard();
+        // setto id
+        acquistoPokemon.setId(cardId);
+        // setto foto
+        acquistoPokemon.setFoto(request.foto());
         //parametri in caso di carta gradata
         if(Boolean.TRUE.equals(request.gradata())){
             acquistoPokemon.setGradata(request.gradata());
