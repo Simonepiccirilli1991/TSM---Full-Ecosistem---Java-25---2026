@@ -15,4 +15,10 @@ public class PokemonCostants {
         public static final String BAD_REQUEST = "PKM-400";
         public static final String CONFLICT = "PKM-403";
     }
+
+    public static class TipoProdotto{
+
+        public static final String SEALED = "Sealed";
+        public static final String CARD = "Carta";
+    }
 }

@@ -18,6 +18,6 @@ public class PokemonSealed {
     private Double prezzoAcquisto;
     private String espansione;
     private String codiceProdotto;
-    private String fotoId;
+    private byte[] foto;
     private Vendita vendita;
 }

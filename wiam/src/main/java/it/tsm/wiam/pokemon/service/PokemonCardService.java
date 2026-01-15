@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import java.time.format.DateTimeFormatter;
 
@@ -39,8 +40,9 @@ public class PokemonCardService {
         var cardId = pokemonUtil.createIdPokemonCard();
         // setto id
         acquistoPokemon.setId(cardId);
-        // setto foto
-        acquistoPokemon.setFoto(request.foto());
+        // setto foto se presente
+        if(!ObjectUtils.isEmpty(request.foto()))
+            acquistoPokemon.setFoto(request.foto());
         //parametri in caso di carta gradata
         if(Boolean.TRUE.equals(request.gradata())){
             acquistoPokemon.setGradata(request.gradata());
