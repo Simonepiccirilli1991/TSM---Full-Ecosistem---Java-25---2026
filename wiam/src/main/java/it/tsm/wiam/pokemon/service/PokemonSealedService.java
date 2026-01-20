@@ -1,7 +1,9 @@
 package it.tsm.wiam.pokemon.service;
 
 
+import it.tsm.wiam.pokemon.entity.PokemonCard;
 import it.tsm.wiam.pokemon.entity.PokemonSealed;
+import it.tsm.wiam.pokemon.exception.PokemonException;
 import it.tsm.wiam.pokemon.model.AddPokemonCardResponse;
 import it.tsm.wiam.pokemon.model.AddPokemonSealedRequest;
 import it.tsm.wiam.pokemon.model.AddPokemonSealedResponse;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -52,5 +55,42 @@ public class PokemonSealedService {
         var resp = new AddPokemonSealedResponse("Acquisto salvato con successo",acquisto);
         log.info("AddPokemonSealedService ended successfulyl with response: {}",resp);
         return resp;
+    }
+
+    public void cancellaSealed(String id){
+        log.info("Cancella sealed service started with id: {}",id);
+
+        var acquistoCarta = pokemonSealedRepo.findById(id)
+                .orElseThrow(() -> {
+                    log.error("Error on Cancella sealed service, id carta non trovato");
+                    return new PokemonException("PKM-404","Errore on cancella sealed, id non valido","Id sealed non trovato");
+                });
+
+        pokemonSealedRepo.delete(acquistoCarta);
+        log.info("Cancella sealed service ended successfully");
+    }
+
+    // get carta by id
+    public PokemonSealed getSealedById(String id){
+        log.info("GetCartaById service started with id: {}",id);
+
+        var carta = pokemonSealedRepo.findById(id)
+                .orElseThrow(() -> {
+                    log.error("Error on get sealed by id service, id sealed non trovato");
+                    return new PokemonException("PKM-404","Errore on get sealed by id, id non valido","Id sealed non trovato");
+                });
+
+        log.info("GetSealedById ended successfully with response: {}",carta);
+        return carta;
+    }
+
+    // get carta by stato
+    public List<PokemonSealed> getSealedByStato(String stato){
+        log.info("GetSealedByStato service started with stato: {}", stato);
+
+        var carte = pokemonSealedRepo.findByStato(stato);
+
+        log.info("GetSealedByStato ended successfully with response: {}", carte);
+        return carte;
     }
 }

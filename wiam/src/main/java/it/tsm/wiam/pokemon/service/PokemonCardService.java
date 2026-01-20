@@ -1,6 +1,7 @@
 package it.tsm.wiam.pokemon.service;
 
 import it.tsm.wiam.pokemon.entity.PokemonCard;
+import it.tsm.wiam.pokemon.exception.PokemonException;
 import it.tsm.wiam.pokemon.model.AddPokemonCardRequest;
 import it.tsm.wiam.pokemon.model.AddPokemonCardResponse;
 import it.tsm.wiam.pokemon.repository.PokemonCardRepo;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -23,7 +25,7 @@ public class PokemonCardService {
     private final PokemonUtil pokemonUtil;
     private final PhotoGridFsService photoGridFsService;
 
-
+    // add carta
     @Transactional
     public AddPokemonCardResponse aggiungiCartaPokemon(AddPokemonCardRequest request){
         log.info("Aggiungi Carta Pokemon service started with raw request: {}",request);
@@ -57,5 +59,43 @@ public class PokemonCardService {
         var resp = new AddPokemonCardResponse("Salvato pokemon card successfully",acquistoResp);
         log.info("Aggiungi Carta Pokemon service ended successfully with response: {}",resp);
         return resp;
+    }
+
+    // cancella carta
+    public void cancellaCarta(String id){
+        log.info("Cancella carta service started with id: {}",id);
+
+        var acquistoCarta = pokemonCardRepo.findById(id)
+                .orElseThrow(() -> {
+                    log.error("Error on Cancella carta service, id carta non trovato");
+                    return new PokemonException("PKM-404","Errore on cancella carta, id non valido","Id carta non trovato");
+                });
+
+        pokemonCardRepo.delete(acquistoCarta);
+        log.info("Cancella carta service ended successfully");
+    }
+
+    // get carta by id
+    public PokemonCard getCartaById(String id){
+        log.info("GetCartaById service started with id: {}",id);
+
+        var carta = pokemonCardRepo.findById(id)
+                .orElseThrow(() -> {
+                    log.error("Error on get carta by id service, id carta non trovato");
+                    return new PokemonException("PKM-404","Errore on get carta by id, id non valido","Id carta non trovato");
+                });
+
+        log.info("GetCartaById ended successfully with response: {}",carta);
+        return carta;
+    }
+
+    // get carta by stato
+    public List<PokemonCard> getCartaByStato(String stato){
+        log.info("GetCartaByStato service started with stato: {}", stato);
+
+        var carte = pokemonCardRepo.findByStato(stato);
+
+        log.info("GetCartaByStato ended successfully with response size: {}", carte.size());
+        return carte;
     }
 }
