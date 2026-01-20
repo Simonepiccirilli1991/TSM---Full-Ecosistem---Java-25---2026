@@ -20,4 +20,14 @@ public class PokemonUtil {
         var cardId = "PKM-CARD-"+ UUID.randomUUID();
         return cardId;
     }
+
+    public String createIdOnePieceSealed(){
+        var cardId = "OP-SEALED-"+ UUID.randomUUID();
+        return cardId;
+    }
+
+    public String createIdOnePieceCard(){
+        var cardId = "OP-CARD-"+ UUID.randomUUID();
+        return cardId;
+    }
 }

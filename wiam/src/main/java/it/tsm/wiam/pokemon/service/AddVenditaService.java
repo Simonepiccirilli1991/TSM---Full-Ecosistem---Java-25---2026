@@ -41,12 +41,12 @@ public class AddVenditaService {
 
             case SEALED -> {
                 log.info("Add vendita for carta");
-                yield venditaCarta(request.id(), request.vendita());
+                yield venditaSealed(request.id(), request.vendita());
             }
 
             case CARD -> {
                 log.info("Add vendita for sealed");
-                yield venditaSealed(request.id(), request.vendita());
+                yield venditaCarta(request.id(), request.vendita());
             }
 
             default -> {
@@ -72,6 +72,8 @@ public class AddVenditaService {
         // setto vendita su acquisto
         acquisto.setVendita(vendita);
         acquisto.setDataLastUpdate(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        // salvo a db
+        pokemonCardRepo.save(acquisto);
         // setto response
         return new AddVenditaResponse("Vendita aggiunta con successo",acquisto,null);
     }
@@ -87,6 +89,8 @@ public class AddVenditaService {
         // setto vendita su acquisto
         acquisto.setVendita(vendita);
         acquisto.setDataLastUpdate(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        // salvo a db
+        pokemonSealedRepo.save(acquisto);
         // setto response
         return new AddVenditaResponse("Vendita aggiunta con successo",null,acquisto);
     }
