@@ -93,4 +93,30 @@ public class PokemonSealedService {
         log.info("GetSealedByStato ended successfully with response: {}", carte);
         return carte;
     }
+
+    // filtering by stato (acquisto o) e range of time  su data acquisto
+    public List<PokemonSealed> filteringByStatoAndRangeTimeAcquistoSealed(String stato, String dataInizio, String dataFine){
+        log.info("Filtering Pokemon cards by stato: {} , dataInizio: {} , dataFine: {}",stato,dataInizio,dataFine);
+
+        var carte = pokemonSealedRepo.findByStatusAndDateRangeAcquisto(
+                stato,
+                dataInizio,
+                dataFine
+        );
+
+        log.info("Filtering Pokemon cards by stato and range time ended successfully with response: {}",carte);
+        return carte;
+    }
+
+    // filtering by stato (venduto o) e range of time su data vendita
+    public List<PokemonSealed> filteringByStatoAndRangeTimeVenditaSealed(String stato, String dataInizio, String dataFine) {
+        log.info("Filtering Pokemon sealed by stato: {} , dataInizio: {} , dataFine: {}", stato, dataInizio, dataFine);
+        var carte = pokemonSealedRepo.findByStatoAndVenditaDateRangeVendita(
+                stato,
+                dataInizio,
+                dataFine
+        );
+        log.info("Filtering Pokemon sealed by stato and range time ended successfully with response: {}", carte);
+        return carte;
+    }
 }

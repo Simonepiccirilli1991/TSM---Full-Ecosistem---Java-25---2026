@@ -63,6 +63,7 @@ class AddOnePieceVenditaServiceTest {
                 "OP-CARD-test123",
                 testVendita,
                 OnePieceCostants.TipoProdotto.SEALED
+                OnePieceCostants.TipoProdotto.SEALED
         );
 
         when(onePieceCardRepo.findById("OP-CARD-test123")).thenReturn(Optional.of(testCard));
@@ -85,6 +86,7 @@ class AddOnePieceVenditaServiceTest {
         var request = new AddOnePieceVenditaRequest(
                 "OP-SEALED-test123",
                 testVendita,
+                OnePieceCostants.TipoProdotto.CARD
                 OnePieceCostants.TipoProdotto.CARD
         );
 
@@ -109,6 +111,7 @@ class AddOnePieceVenditaServiceTest {
                 "OP-CARD-notfound",
                 testVendita,
                 OnePieceCostants.TipoProdotto.SEALED
+                OnePieceCostants.TipoProdotto.SEALED
         );
 
         when(onePieceCardRepo.findById("OP-CARD-notfound")).thenReturn(Optional.empty());
@@ -124,6 +127,7 @@ class AddOnePieceVenditaServiceTest {
         var request = new AddOnePieceVenditaRequest(
                 "OP-SEALED-notfound",
                 testVendita,
+                OnePieceCostants.TipoProdotto.CARD
                 OnePieceCostants.TipoProdotto.CARD
         );
 

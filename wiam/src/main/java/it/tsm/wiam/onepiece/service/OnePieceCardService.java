@@ -6,6 +6,7 @@ import it.tsm.wiam.onepiece.model.AddOnePieceCardResponse;
 import it.tsm.wiam.onepiece.repository.OnePieceCardRepo;
 import it.tsm.wiam.onepiece.exception.OnePieceException;
 import it.tsm.wiam.onepiece.util.OnePieceCostants;
+import it.tsm.wiam.pokemon.entity.PokemonCard;
 import it.tsm.wiam.pokemon.util.PokemonUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -95,6 +96,32 @@ public class OnePieceCardService {
         var carte = onePieceCardRepo.findByStato(stato);
 
         log.info("GetCartaByStato onepiece ended successfully with response size: {}", carte.size());
+        return carte;
+    }
+
+    // filtering by stato (acquisto o) e range of time  su data acquisto
+    public List<OnePieceCard> filteringByStatoAndRangeTimeAcquistoCard(String stato, String dataInizio, String dataFine){
+        log.info("Filtering OnePiece cards acquistate by stato: {} , dataInizio: {} , dataFine: {}",stato,dataInizio,dataFine);
+
+        var carte = onePieceCardRepo.findByStatusAndDateRangeAcquisto(
+                stato,
+                dataInizio,
+                dataFine
+        );
+
+        log.info("Filtering OnePiece cards by stato and range time ended successfully with response: {}",carte);
+        return carte;
+    }
+
+    // filtering by stato (venduto o) e range of time su data vendita
+    public List<OnePieceCard> filteringByStatoAndRangeTimeVenditaCard(String stato, String dataInizio, String dataFine) {
+        log.info("Filtering OnePiece cards vendute by stato: {} , dataInizio: {} , dataFine: {}", stato, dataInizio, dataFine);
+        var carte = onePieceCardRepo.findByStatoAndVenditaDateRangeVendita(
+                stato,
+                dataInizio,
+                dataFine
+        );
+        log.info("Filtering OnePiece cards by stato and range time ended successfully with response: {}", carte);
         return carte;
     }
 }

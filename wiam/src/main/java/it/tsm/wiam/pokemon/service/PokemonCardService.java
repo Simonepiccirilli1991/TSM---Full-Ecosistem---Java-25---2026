@@ -98,4 +98,30 @@ public class PokemonCardService {
         log.info("GetCartaByStato ended successfully with response size: {}", carte.size());
         return carte;
     }
+
+    // filtering by stato (acquisto o) e range of time  su data acquisto
+    public List<PokemonCard> filteringByStatoAndRangeTimeAcquistoCard(String stato, String dataInizio, String dataFine){
+        log.info("Filtering Pokemon cards by stato: {} , dataInizio: {} , dataFine: {}",stato,dataInizio,dataFine);
+
+        var carte = pokemonCardRepo.findByStatusAndDateRangeAcquisto(
+                stato,
+                dataInizio,
+                dataFine
+        );
+
+        log.info("Filtering Pokemon cards by stato and range time ended successfully with response: {}",carte);
+        return carte;
+    }
+
+    // filtering by stato (venduto o) e range of time su data vendita
+    public List<PokemonCard> filteringByStatoAndRangeTimeVenditaCard(String stato, String dataInizio, String dataFine) {
+        log.info("Filtering Pokemon cards by stato: {} , dataInizio: {} , dataFine: {}", stato, dataInizio, dataFine);
+        var carte = pokemonCardRepo.findByStatoAndVenditaDateRangeVendita(
+                stato,
+                dataInizio,
+                dataFine
+        );
+        log.info("Filtering Pokemon cards by stato and range time ended successfully with response: {}", carte);
+        return carte;
+    }
 }

@@ -8,6 +8,7 @@ import it.tsm.wiam.pokemon.service.PokemonSealedService;
 import it.tsm.wiam.reportistica.model.ReportDto;
 import it.tsm.wiam.reportistica.model.ReportisticaRequest;
 import it.tsm.wiam.reportistica.model.ReportisticaResponse;
+import it.tsm.wiam.reportistica.util.ReportisticaUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,7 @@ public class ReportisticaService {
     private final PokemonCardService pokemonCardService;
     private final OnePieceCardService onePieceCardService;
     private final OnePieceSealedService onePieceSealedService;
-
-    ObjectMapper mapper = new ObjectMapper();
+    private final ReportisticaUtil reportisticaUtil;
 
 
     // creo servizio di reportistica per pokemon sealed e card e poi per one Piece sealed e card
@@ -77,7 +77,7 @@ public class ReportisticaService {
 
         // devo rimappare i dto sulla resp per carte
         carteSingole.forEach(i -> {
-            var dto = (ReportDto) mappingEntityToDTO(i, ReportDto.class);
+            var dto = (ReportDto) reportisticaUtil.mappingEntityToDTO(i, ReportDto.class);
             // setto parametro che sia pokemon
             dto.setTipoProdotto("Pokemon");
             //addo alla lita
@@ -88,7 +88,7 @@ public class ReportisticaService {
         var carteSealed = pokemonSealedService.getSealedByStato(stato);
         // devo rimappare i dto dei sealed sulla resp
         carteSealed.forEach(i -> {
-            var dto = (ReportDto) mappingEntityToDTO(i, ReportDto.class);
+            var dto = (ReportDto) reportisticaUtil.mappingEntityToDTO(i, ReportDto.class);
             dto.setTipoProdotto("Pokemon");
             listaReport.add(dto);
         });
@@ -107,7 +107,7 @@ public class ReportisticaService {
 
         // devo rimappare i dto sulla resp per carte
         carteSingole.forEach(i -> {
-            var dto = (ReportDto) mappingEntityToDTO(i, ReportDto.class);
+            var dto = (ReportDto) reportisticaUtil.mappingEntityToDTO(i, ReportDto.class);
             // setto tipo prodotto
             dto.setTipoProdotto("OnePiece");
             //addo alla lita
@@ -118,7 +118,7 @@ public class ReportisticaService {
         var carteSealed = onePieceSealedService.getSealedByStato(stato);
         // devo rimappare i dto dei sealed sulla resp
         carteSealed.forEach(i -> {
-            var dto = (ReportDto) mappingEntityToDTO(i, ReportDto.class);
+            var dto = (ReportDto) reportisticaUtil.mappingEntityToDTO(i, ReportDto.class);
             dto.setTipoProdotto("OnePiece");
             listaReport.add(dto);
         });
@@ -128,14 +128,4 @@ public class ReportisticaService {
     }
 
 
-
-    private Object mappingEntityToDTO(Object o, Class<?> c){
-        try{
-            var dto = mapper.convertValue(o,c);
-            return dto;
-        }catch (Exception e){
-            log.error("Error on mappingEntityToDTO with error: {}",e.getMessage());
-            throw e;
-        }
-    }
 }

@@ -1,6 +1,7 @@
 package it.tsm.wiam.onepiece.service;
 
 
+import it.tsm.wiam.onepiece.entity.OnePieceCard;
 import it.tsm.wiam.onepiece.entity.OnePieceSealed;
 import it.tsm.wiam.onepiece.model.AddOnePieceSealedRequest;
 import it.tsm.wiam.onepiece.model.AddOnePieceSealedResponse;
@@ -88,6 +89,33 @@ public class OnePieceSealedService {
         var carte = onePieceSealedRepo.findByStato(stato);
 
         log.info("GetSealedByStato onepiece ended successfully with response: {}", carte);
+        return carte;
+    }
+
+
+    // filtering by stato (acquisto o) e range of time  su data acquisto
+    public List<OnePieceSealed> filteringByStatoAndRangeTimeAcquistoSealed(String stato, String dataInizio, String dataFine){
+        log.info("Filtering OnePiece sealed acquistate by stato: {} , dataInizio: {} , dataFine: {}",stato,dataInizio,dataFine);
+
+        var carte = onePieceSealedRepo.findByStatusAndDateRangeAcquisto(
+                stato,
+                dataInizio,
+                dataFine
+        );
+
+        log.info("Filtering OnePiece sealed by stato and range time ended successfully with response: {}",carte);
+        return carte;
+    }
+
+    // filtering by stato (venduto o) e range of time su data vendita
+    public List<OnePieceSealed> filteringByStatoAndRangeTimeVenditaSealed(String stato, String dataInizio, String dataFine) {
+        log.info("Filtering OnePiece sealed vendute by stato: {} , dataInizio: {} , dataFine: {}", stato, dataInizio, dataFine);
+        var carte = onePieceSealedRepo.findByStatoAndVenditaDateRangeVendita(
+                stato,
+                dataInizio,
+                dataFine
+        );
+        log.info("Filtering OnePiece sealed by stato and range time ended successfully with response: {}", carte);
         return carte;
     }
 }
