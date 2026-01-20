@@ -23,4 +23,8 @@ public class ReportisticaController {
     public ResponseEntity<ReportisticaResponse> creaReportistica(@RequestBody ReportisticaRequest request){
         return ResponseEntity.ok(reportisticaService.reportDettaglio(request));
     }
+
+    // crea report mensile acquisti
+
+    // crea report mensile vendite
 }
