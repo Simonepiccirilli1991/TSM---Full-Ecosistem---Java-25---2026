@@ -37,4 +37,7 @@ public class ReportisticaController {
     public ResponseEntity<ReportisticaResponse> creaReportMensileVendite(@RequestBody ReportisticaMensileRequest request){
         return ResponseEntity.ok(reportisticaMensileService.reportMensileVendite(request));
     }
+
+
+    //TODO: effettuare junit di reportistica, integrare con front end e fare giro di collaudo
 }
