@@ -10,6 +10,7 @@ import it.tsm.wiam.pokemon.model.Vendita;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -40,13 +41,13 @@ public class AddOnePieceVenditaService {
         var resp = switch (request.tipoProdotto()) {
 
             case SEALED -> {
-                log.info("Add vendita for carta onepiece");
-                yield venditaCarta(request.id(), request.vendita());
+                log.info("Add vendita for sealed onepiece");
+                yield venditaSealed(request.id(), request.vendita());
             }
 
             case CARD -> {
-                log.info("Add vendita for sealed onepiece");
-                yield venditaSealed(request.id(), request.vendita());
+                log.info("Add vendita for carta onepiece");
+                yield venditaCarta(request.id(), request.vendita());
             }
 
             default -> {
@@ -68,6 +69,13 @@ public class AddOnePieceVenditaService {
                     log.error("Error on AddVenditaOnePiece, acquisto carta non trovato");
                     return new OnePieceException("OP-500","Id carta non valido","Carta acquisto non trovata");
                 });
+        // calcolo prezzo netto
+        if(!ObjectUtils.isEmpty(vendita.getCostiVendita()) && 0.00 != vendita.getCostiVendita()){
+            var prezzoNetto = vendita.getPrezzoVendita() - vendita.getCostiVendita();
+            vendita.setPrezzoNetto(String.valueOf(prezzoNetto));
+        } else {
+            vendita.setPrezzoNetto(String.valueOf(vendita.getPrezzoVendita()));
+        }
         // updato Acquisto
         acquisto.setStatoAcquisto(VENDUTO);
         acquisto.setStato(NON_DISPONIBILE);
@@ -89,14 +97,19 @@ public class AddOnePieceVenditaService {
                     log.error("Error on AddVenditaOnePiece, acquisto sealed non trovato");
                     return new OnePieceException("OP-500","Id sealed non valido","Sealed acquisto non trovata");
                 });
+        // calcolo prezzo netto
+        if(!ObjectUtils.isEmpty(vendita.getCostiVendita()) && 0.00 != vendita.getCostiVendita()){
+            var prezzoNetto = vendita.getPrezzoVendita() - vendita.getCostiVendita();
+            vendita.setPrezzoNetto(String.valueOf(prezzoNetto));
+        } else {
+            vendita.setPrezzoNetto(String.valueOf(vendita.getPrezzoVendita()));
+        }
         // setto stato
         acquisto.setStatoAcquisto(VENDUTO);
         acquisto.setStato(NON_DISPONIBILE);
         // setto vendita su acquisto
         acquisto.setVendita(vendita);
         acquisto.setDataLastUpdate(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        // setto stato a venduto
-        acquisto.setStato("VENDUTO");
         // salvo a db
         onePieceSealedRepo.save(acquisto);
         // setto response

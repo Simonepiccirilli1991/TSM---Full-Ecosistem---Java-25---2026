@@ -41,12 +41,12 @@ public class AddVenditaService {
         var resp = switch (request.tipoProdotto()) {
 
             case SEALED -> {
-                log.info("Add vendita for carta");
+                log.info("Add vendita for sealed");
                 yield venditaSealed(request.id(), request.vendita());
             }
 
             case CARD -> {
-                log.info("Add vendita for sealed");
+                log.info("Add vendita for carta");
                 yield venditaCarta(request.id(), request.vendita());
             }
 
@@ -69,7 +69,13 @@ public class AddVenditaService {
                     log.error("Error on AddVenditaPokemon, acquisto carta non trovato");
                     return new PokemonException("PKM-500","Id carta non valido","Carta acquisto non trovata");
                 });
-
+        // calcolo prezzo netto
+        if(!ObjectUtils.isEmpty(vendita.getCostiVendita()) && 0.00 != vendita.getCostiVendita()){
+            var prezzoNetto = vendita.getPrezzoVendita() - vendita.getCostiVendita();
+            vendita.setPrezzoNetto(String.valueOf(prezzoNetto));
+        } else {
+            vendita.setPrezzoNetto(String.valueOf(vendita.getPrezzoVendita()));
+        }
         // setto vendita su acquisto
         acquisto.setVendita(vendita);
         acquisto.setDataLastUpdate(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
