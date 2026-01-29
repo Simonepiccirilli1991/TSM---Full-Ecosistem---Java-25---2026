@@ -17,7 +17,7 @@ public class OnePieceVenditaService {
         log.debug("Adding vendita to One Piece card: {}", cardId);
         webClient.post()
                 .uri("/api/v1/onepiece/addvendita")
-                .bodyValue(new VenditaRequest(cardId, vendita, "CARD"))
+                .bodyValue(new VenditaRequest(cardId, vendita, "Carta"))
                 .retrieve()
                 .bodyToMono(Void.class)
                 .block();
@@ -27,7 +27,7 @@ public class OnePieceVenditaService {
         log.debug("Adding vendita to One Piece sealed: {}", sealedId);
         webClient.post()
                 .uri("/api/v1/onepiece/addvendita")
-                .bodyValue(new VenditaRequest(sealedId, vendita, "SEALED"))
+                .bodyValue(new VenditaRequest(sealedId, vendita, "Sealed"))
                 .retrieve()
                 .bodyToMono(Void.class)
                 .block();

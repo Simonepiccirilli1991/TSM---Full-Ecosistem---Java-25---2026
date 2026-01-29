@@ -17,6 +17,9 @@ import org.springframework.util.ObjectUtils;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import static it.tsm.wiam.onepiece.util.OnePieceCostants.Stati.ACQUISTATO;
+import static it.tsm.wiam.onepiece.util.OnePieceCostants.Stati.DISPONIBILE;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -40,7 +43,8 @@ public class OnePieceSealedService {
         entity.setId(id);
         entity.setNome(request.nome());
         entity.setEspansione(request.espansione());
-        entity.setStato(OnePieceCostants.Stati.ACQUISTATO);
+        entity.setStato(DISPONIBILE);
+        entity.setStatoAcquisto(ACQUISTATO);
         entity.setCodiceProdotto(request.codiceProdotto());
         entity.setDataInserimentoAcquisto(request.dataInserimentoAcquisto().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         entity.setPrezzoAcquisto(request.prezzoAcquisto());

@@ -14,6 +14,7 @@ public class OnePieceCard {
     private String nome;
     private String dataInserimentoAcquisto;
     private String dataLastUpdate;
+    private String statoAcquisto;
     private String stato; // acquistato, venduto
     private Double prezzoAcquisto;
     private String espansione;

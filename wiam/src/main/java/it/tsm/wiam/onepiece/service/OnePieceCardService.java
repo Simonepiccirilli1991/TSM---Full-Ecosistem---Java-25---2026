@@ -17,6 +17,8 @@ import org.springframework.util.ObjectUtils;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import static it.tsm.wiam.onepiece.util.OnePieceCostants.Stati.DISPONIBILE;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -37,7 +39,8 @@ public class OnePieceCardService {
         acquisto.setEspansione(request.espansione());
         acquisto.setPrezzoAcquisto(request.prezzoAcquisto());
         acquisto.setDataInserimentoAcquisto(request.dataInserimentoAcquisto().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        acquisto.setStato(OnePieceCostants.Stati.ACQUISTATO);
+        acquisto.setStatoAcquisto(OnePieceCostants.Stati.ACQUISTATO);
+        acquisto.setStato(DISPONIBILE);
         // genero id
         var cardId = pokemonUtil.createIdOnePieceCard();
         // setto id

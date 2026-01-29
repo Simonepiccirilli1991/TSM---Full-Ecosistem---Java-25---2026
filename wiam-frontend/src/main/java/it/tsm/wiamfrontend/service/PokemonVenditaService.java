@@ -17,7 +17,7 @@ public class PokemonVenditaService {
         log.debug("Adding vendita to Pokemon card: {}", cardId);
         webClient.post()
                 .uri("/api/v1/pokemon/addvendita")
-                .bodyValue(new VenditaRequest(cardId, vendita, "CARD"))
+                .bodyValue(new VenditaRequest(cardId, vendita, "Carta"))
                 .retrieve()
                 .bodyToMono(Void.class)
                 .block();
@@ -27,7 +27,7 @@ public class PokemonVenditaService {
         log.debug("Adding vendita to Pokemon sealed: {}", sealedId);
         webClient.post()
                 .uri("/api/v1/pokemon/addvendita")
-                .bodyValue(new VenditaRequest(sealedId, vendita, "SEALED"))
+                .bodyValue(new VenditaRequest(sealedId, vendita, "Sealed"))
                 .retrieve()
                 .bodyToMono(Void.class)
                 .block();

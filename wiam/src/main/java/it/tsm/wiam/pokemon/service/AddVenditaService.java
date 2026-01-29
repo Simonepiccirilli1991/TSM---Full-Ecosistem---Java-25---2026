@@ -10,6 +10,7 @@ import it.tsm.wiam.pokemon.repository.PokemonSealedRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -73,8 +74,8 @@ public class AddVenditaService {
         acquisto.setVendita(vendita);
         acquisto.setDataLastUpdate(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         // updato lo stato
-        acquisto.setStato(VENDUTO);
-        acquisto.setStatoAcquisto(NON_DISPONIBILE);
+        acquisto.setStato(NON_DISPONIBILE);
+        acquisto.setStatoAcquisto(VENDUTO);
         // salvo a db
         pokemonCardRepo.save(acquisto);
         // setto response
@@ -88,11 +89,17 @@ public class AddVenditaService {
                     log.error("Error on AddVenditaPokemon, acquisto sealed non trovato");
                     return new PokemonException("PKM-500","Id sealed non valido","Sealed acquisto non trovata");
                 });
-
+        // calcolo prezzo netto
+        if(!ObjectUtils.isEmpty(vendita.getCostiVendita()) && 0.00 != vendita.getCostiVendita()){
+            var prezzoNetto = vendita.getPrezzoVendita() - vendita.getCostiVendita();
+            vendita.setPrezzoNetto(String.valueOf(prezzoNetto));
+        } else {
+            vendita.setPrezzoNetto(String.valueOf(vendita.getPrezzoVendita()));
+        }
         // setto vendita su acquisto
         acquisto.setVendita(vendita);
-        acquisto.setStato(VENDUTO);
-        acquisto.setStatoAcquisto(NON_DISPONIBILE);
+        acquisto.setStato(NON_DISPONIBILE);
+        acquisto.setStatoAcquisto(VENDUTO);
         acquisto.setDataLastUpdate(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         // salvo a db
         pokemonSealedRepo.save(acquisto);

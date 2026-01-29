@@ -15,6 +15,7 @@ public class OnePieceSealed {
     private String dataInserimentoAcquisto;
     private String dataLastUpdate;
     private String stato; // acquistato, venduto
+    private String statoAcquisto;
     private Double prezzoAcquisto;
     private String espansione;
     private String codiceProdotto;

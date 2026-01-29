@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static it.tsm.wiam.onepiece.util.OnePieceCostants.Stati.NON_DISPONIBILE;
+import static it.tsm.wiam.onepiece.util.OnePieceCostants.Stati.VENDUTO;
 import static it.tsm.wiam.onepiece.util.OnePieceCostants.TipoProdotto.CARD;
 import static it.tsm.wiam.onepiece.util.OnePieceCostants.TipoProdotto.SEALED;
 
@@ -66,7 +68,9 @@ public class AddOnePieceVenditaService {
                     log.error("Error on AddVenditaOnePiece, acquisto carta non trovato");
                     return new OnePieceException("OP-500","Id carta non valido","Carta acquisto non trovata");
                 });
-
+        // updato Acquisto
+        acquisto.setStatoAcquisto(VENDUTO);
+        acquisto.setStato(NON_DISPONIBILE);
         // setto vendita su acquisto
         acquisto.setVendita(vendita);
         acquisto.setDataLastUpdate(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
@@ -85,7 +89,9 @@ public class AddOnePieceVenditaService {
                     log.error("Error on AddVenditaOnePiece, acquisto sealed non trovato");
                     return new OnePieceException("OP-500","Id sealed non valido","Sealed acquisto non trovata");
                 });
-
+        // setto stato
+        acquisto.setStatoAcquisto(VENDUTO);
+        acquisto.setStato(NON_DISPONIBILE);
         // setto vendita su acquisto
         acquisto.setVendita(vendita);
         acquisto.setDataLastUpdate(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));

@@ -28,7 +28,6 @@ public class PokemonCardService {
     private final PhotoGridFsService photoGridFsService;
 
     // add carta
-    @Transactional
     public AddPokemonCardResponse aggiungiCartaPokemon(AddPokemonCardRequest request){
         log.info("Aggiungi Carta Pokemon service started with raw request: {}",request);
         // valido request
