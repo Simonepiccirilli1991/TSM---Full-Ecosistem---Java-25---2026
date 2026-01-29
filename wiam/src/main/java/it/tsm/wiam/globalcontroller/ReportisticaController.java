@@ -39,5 +39,5 @@ public class ReportisticaController {
     }
 
 
-    //TODO: effettuare junit di reportistica, integrare con front end e fare giro di collaudo
+    //TODO: fare test one piece singolo e poi fare check su reportistica
 }
