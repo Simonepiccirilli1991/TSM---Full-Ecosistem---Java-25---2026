@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WIAM - Test Integrazione API</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .status-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .status-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .status-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .status-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .status-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .status-online {
+            background: #28a745;
+            box-shadow: 0 0 10px #28a745;
+        }
+
+        .status-offline {
+            background: #dc3545;
+            box-shadow: 0 0 10px #dc3545;
+        }
+
+        .status-checking {
+            background: #ffc107;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .test-section {
+            margin-bottom: 30px;
+        }
+
+        .test-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .response-area {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .response-area.show {
+            display: block;
+        }
+
+        .success {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .links-section {
+            background: #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .links-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .links-section a {
+            display: block;
+            color: #667eea;
+            text-decoration: none;
+            padding: 10px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .links-section a:hover {
+            background: #667eea;
+            color: white;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 WIAM Microservizi</h1>
+            <p>Test Integrazione Backend ↔ Frontend</p>
+        </header>
+
+        <div class="content">
+            <!-- Status Section -->
+            <div class="status-section">
+                <h2>📊 Stato Servizi</h2>
+                <div class="status-grid">
+                    <div class="status-card">
+                        <h3>MongoDB</h3>
+                        <div>
+                            <span class="status-indicator" id="mongo-status"></span>
+                            <span id="mongo-text">Verifica...</span>
+                        </div>
+                    </div>
+                    <div class="status-card">
+                        <h3>Backend (8081)</h3>
+                        <div>
+                            <span class="status-indicator" id="backend-status"></span>
+                            <span id="backend-text">Verifica...</span>
+                        </div>
+                    </div>
+                    <div class="status-card">
+                        <h3>Frontend (8080)</h3>
+                        <div>
+                            <span class="status-indicator" id="frontend-status"></span>
+                            <span id="frontend-text">Verifica...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pokemon Tests -->
+            <div class="test-section">
+                <h2>🎮 Test Pokemon API</h2>
+                <div class="button-grid">
+                    <button onclick="testCreatePokemonCard()">Crea Pokemon Card</button>
+                    <button onclick="testGetPokemonCards()">Lista Pokemon Cards</button>
+                    <button onclick="testCreatePokemonSealed()">Crea Pokemon Sealed</button>
+                    <button onclick="testGetPokemonSealed()">Lista Pokemon Sealed</button>
+                    <button onclick="testAddVenditaCard()">Aggiungi Vendita Card</button>
+                </div>
+                <div id="pokemon-response" class="response-area"></div>
+            </div>
+
+            <!-- OnePiece Tests -->
+            <div class="test-section">
+                <h2>🏴‍☠️ Test OnePiece API</h2>
+                <div class="button-grid">
+                    <button onclick="testCreateOnePieceCard()">Crea OnePiece Card</button>
+                    <button onclick="testGetOnePieceCards()">Lista OnePiece Cards</button>
+                    <button onclick="testCreateOnePieceSealed()">Crea OnePiece Sealed</button>
+                    <button onclick="testGetOnePieceSealed()">Lista OnePiece Sealed</button>
+                </div>
+                <div id="onepiece-response" class="response-area"></div>
+            </div>
+
+            <!-- Links Section -->
+            <div class="links-section">
+                <h3>🔗 Link Utili</h3>
+                <a href="http://localhost:8080" target="_blank">Frontend Homepage</a>
+                <a href="http://localhost:8080/pokemon/cards" target="_blank">Pokemon Cards (Frontend)</a>
+                <a href="http://localhost:8080/pokemon/sealed" target="_blank">Pokemon Sealed (Frontend)</a>
+                <a href="http://localhost:8080/onepiece/cards" target="_blank">OnePiece Cards (Frontend)</a>
+                <a href="http://localhost:8080/onepiece/sealed" target="_blank">OnePiece Sealed (Frontend)</a>
+                <a href="http://localhost:8081/api/v1/pokemon/getcardsbystatus/DISPONIBILE" target="_blank">API: Pokemon Cards (Backend)</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const BACKEND_URL = 'http://localhost:8081';
+        let lastCardId = null;
+
+        // Check services status on load
+        window.onload = function() {
+            checkBackendStatus();
+            checkFrontendStatus();
+            // MongoDB status requires backend to be up
+            setTimeout(checkMongoStatus, 1000);
+        };
+
+        async function checkBackendStatus() {
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/v1/pokemon/getcardsbystatus/DISPONIBILE`);
+                updateStatus('backend', response.ok);
+            } catch (error) {
+                updateStatus('backend', false);
+            }
+        }
+
+        async function checkFrontendStatus() {
+            try {
+                const response = await fetch('http://localhost:8080');
+                updateStatus('frontend', response.ok);
+            } catch (error) {
+                updateStatus('frontend', false);
+            }
+        }
+
+        async function checkMongoStatus() {
+            // If backend is up, we assume MongoDB is working
+            const backendUp = document.getElementById('backend-status').classList.contains('status-online');
+            updateStatus('mongo', backendUp);
+        }
+
+        function updateStatus(service, isOnline) {
+            const statusEl = document.getElementById(`${service}-status`);
+            const textEl = document.getElementById(`${service}-text`);
+
+            statusEl.className = 'status-indicator ' + (isOnline ? 'status-online' : 'status-offline');
+            textEl.textContent = isOnline ? 'Online' : 'Offline';
+        }
+
+        function showResponse(elementId, data, isError = false) {
+            const responseEl = document.getElementById(elementId);
+            responseEl.classList.add('show');
+
+            const className = isError ? 'error' : 'success';
+            const formatted = typeof data === 'object' ? JSON.stringify(data, null, 2) : data;
+
+            responseEl.innerHTML = `<span class="${className}">${isError ? '❌ Errore' : '✅ Successo'}</span>\n\n${formatted}`;
+        }
+
+        async function testCreatePokemonCard() {
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/v1/pokemon/addcard`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        nome: 'Charizard Test',
+                        dataInserimentoAcquisto: new Date().toISOString(),
+                        prezzoAcquisto: 150.50,
+                        espansione: 'Base Set',
+                        gradata: true,
+                        casaGradazione: 'PSA',
+                        votoGradazione: '10',
+                        codiceGradazione: '12345678'
+                    })
+                });
+
+                const data = await response.json();
+                lastCardId = data.id;
+                showResponse('pokemon-response', data);
+            } catch (error) {
+                showResponse('pokemon-response', error.message, true);
+            }
+        }
+
+        async function testGetPokemonCards() {
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/v1/pokemon/getcardsbystatus/DISPONIBILE`);
+                const data = await response.json();
+                showResponse('pokemon-response', `Trovate ${data.length} card disponibili:\n\n${JSON.stringify(data, null, 2)}`);
+            } catch (error) {
+                showResponse('pokemon-response', error.message, true);
+            }
+        }
+
+        async function testCreatePokemonSealed() {
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/v1/pokemon/addsealed`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        nome: 'Booster Box Test',
+                        dataInserimentoAcquisto: new Date().toISOString(),
+                        prezzoAcquisto: 450.00,
+                        espansione: 'Scarlet & Violet',
+                        codiceProdotto: 'SV01-BB'
+                    })
+                });
+
+                const data = await response.json();
+                showResponse('pokemon-response', data);
+            } catch (error) {
+                showResponse('pokemon-response', error.message, true);
+            }
+        }
+
+        async function testGetPokemonSealed() {
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/v1/pokemon/getsealedbystatus/DISPONIBILE`);
+                const data = await response.json();
+                showResponse('pokemon-response', `Trovati ${data.length} sealed disponibili:\n\n${JSON.stringify(data, null, 2)}`);
+            } catch (error) {
+                showResponse('pokemon-response', error.message, true);
+            }
+        }
+
+        async function testAddVenditaCard() {
+            if (!lastCardId) {
+                alert('Prima crea una card con il pulsante "Crea Pokemon Card"');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/v1/pokemon/addvendita`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        id: lastCardId,
+                        vendita: {
+                            dataVendita: new Date().toISOString().split('T')[0],
+                            prezzoVendita: 200.00,
+                            costiVendita: 15.50,
+                            prezzoNetto: '184.50',
+                            piattaformaVendita: 'eBay'
+                        },
+                        tipoProdotto: 'CARD'
+                    })
+                });
+
+                const data = await response.json();
+                showResponse('pokemon-response', data);
+            } catch (error) {
+                showResponse('pokemon-response', error.message, true);
+            }
+        }
+
+        async function testCreateOnePieceCard() {
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/v1/onepiece/addcard`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        nome: 'Monkey D. Luffy Test',
+                        dataInserimentoAcquisto: new Date().toISOString(),
+                        prezzoAcquisto: 80.00,
+                        espansione: 'OP01',
+                        gradata: false
+                    })
+                });
+
+                const data = await response.json();
+                showResponse('onepiece-response', data);
+            } catch (error) {
+                showResponse('onepiece-response', error.message, true);
+            }
+        }
+
+        async function testGetOnePieceCards() {
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/v1/onepiece/getcardsbystatus/DISPONIBILE`);
+                const data = await response.json();
+                showResponse('onepiece-response', `Trovate ${data.length} card disponibili:\n\n${JSON.stringify(data, null, 2)}`);
+            } catch (error) {
+                showResponse('onepiece-response', error.message, true);
+            }
+        }
+
+        async function testCreateOnePieceSealed() {
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/v1/onepiece/addsealed`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        nome: 'Booster Box OP-01 Test',
+                        dataInserimentoAcquisto: new Date().toISOString(),
+                        prezzoAcquisto: 300.00,
+                        espansione: 'Romance Dawn',
+                        codiceProdotto: 'OP01-BB'
+                    })
+                });
+
+                const data = await response.json();
+                showResponse('onepiece-response', data);
+            } catch (error) {
+                showResponse('onepiece-response', error.message, true);
+            }
+        }
+
+        async function testGetOnePieceSealed() {
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/v1/onepiece/getsealedbystatus/DISPONIBILE`);
+                const data = await response.json();
+                showResponse('onepiece-response', `Trovati ${data.length} sealed disponibili:\n\n${JSON.stringify(data, null, 2)}`);
+            } catch (error) {
+                showResponse('onepiece-response', error.message, true);
+            }
+        }
+    </script>
+</body>
+</html>

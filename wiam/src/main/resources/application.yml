@@ -4,8 +4,8 @@ spring:
     virtual:
       enabled: true
 
-  server:
-    port: 8080
+server:
+  port: 8081
 
   logging:
     level:

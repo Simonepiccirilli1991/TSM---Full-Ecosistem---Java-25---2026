@@ -14,7 +14,8 @@ public class PokemonCard {
     private String nome;
     private String dataInserimentoAcquisto;
     private String dataLastUpdate;
-    private String stato; // acquistato, venduto
+    private String statoAcquisto; // acquistato, venduto
+    private String stato; // disponibile, non disponibile
     private Double prezzoAcquisto;
     private String espansione;
     private boolean gradata;

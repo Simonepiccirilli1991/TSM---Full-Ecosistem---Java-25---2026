@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+<body class="d-flex flex-column min-vh-100">
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <main class="flex-shrink-0">
+        <div class="container mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="bi bi-lightning-fill text-warning"></i> Carte Pokémon</h2>
+                <a th:href="@{/pokemon/cards/new}" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> Nuova Carta
+                </a>
+            </div>
+
+            <div th:if="${success}" class="alert alert-success alert-dismissible fade show">
+                <span th:text="${success}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show">
+                <span th:text="${error}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Nome</th>
+                            <th>Espansione</th>
+                            <th>Gradata</th>
+                            <th>Casa/Voto</th>
+                            <th>Prezzo Acquisto</th>
+                            <th>Data Acquisto</th>
+                            <th>Stato</th>
+                            <th>Azioni</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="card : ${cards}">
+                            <td th:text="${card.nome}"></td>
+                            <td th:text="${card.espansione}"></td>
+                            <td>
+                                <span th:if="${card.gradata}" class="badge bg-info">Gradata</span>
+                                <span th:unless="${card.gradata}" class="badge bg-secondary">Raw</span>
+                            </td>
+                            <td>
+                                <span th:if="${card.gradata}" th:text="${card.casaGradazione + ' ' + card.votoGradazione}"></span>
+                                <span th:unless="${card.gradata}">-</span>
+                            </td>
+                            <td th:text="${#numbers.formatDecimal(card.prezzoAcquisto, 1, 2)} + ' €'"></td>
+                            <td th:text="${card.dataInserimentoAcquisto}"></td>
+                            <td>
+                                <span th:if="${card.stato == 'DISPONIBILE'}" class="badge bg-success">Disponibile</span>
+                                <span th:if="${card.stato == 'VENDUTO'}" class="badge bg-danger">Venduto</span>
+                            </td>
+                            <td>
+                                <a th:href="@{/pokemon/cards/{id}/edit(id=${card.id})}" class="btn btn-sm btn-warning">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a th:if="${card.stato == 'DISPONIBILE'}"
+                                   th:href="@{/pokemon/cards/{id}/vendita(id=${card.id})}"
+                                   class="btn btn-sm btn-success">
+                                    <i class="bi bi-cart-check"></i>
+                                </a>
+                                <a th:href="@{/pokemon/cards/{id}/delete(id=${card.id})}"
+                                   class="btn btn-sm btn-danger"
+                                   onclick="return confirm('Sei sicuro di voler eliminare questa carta?')">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(cards)}">
+                            <td colspan="8" class="text-center">Nessuna carta trovata</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

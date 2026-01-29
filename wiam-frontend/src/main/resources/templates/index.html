@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+<body class="d-flex flex-column min-vh-100">
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <main class="flex-shrink-0">
+        <div class="container mt-5">
+            <div class="jumbotron text-center bg-light p-5 rounded">
+                <h1 class="display-4"><i class="bi bi-card-checklist"></i> WIAM TCG Manager</h1>
+                <p class="lead">Sistema di gestione per carte collezionabili Pokémon e One Piece</p>
+                <hr class="my-4">
+                <p>Gestisci i tuoi acquisti, traccia le vendite e monitora i profitti</p>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="bi bi-lightning-fill text-warning" style="font-size: 3rem;"></i>
+                            <h5 class="card-title mt-3">Pokémon</h5>
+                            <p class="card-text">Gestisci carte e sealed Pokémon</p>
+                            <div class="d-grid gap-2">
+                                <a th:href="@{/pokemon/cards}" class="btn btn-warning">Carte</a>
+                                <a th:href="@{/pokemon/sealed}" class="btn btn-outline-warning">Sealed</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="bi bi-flag-fill text-danger" style="font-size: 3rem;"></i>
+                            <h5 class="card-title mt-3">One Piece</h5>
+                            <p class="card-text">Gestisci carte e sealed One Piece</p>
+                            <div class="d-grid gap-2">
+                                <a th:href="@{/onepiece/cards}" class="btn btn-danger">Carte</a>
+                                <a th:href="@{/onepiece/sealed}" class="btn btn-outline-danger">Sealed</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="bi bi-graph-up text-success" style="font-size: 3rem;"></i>
+                            <h5 class="card-title mt-3">Reportistica</h5>
+                            <p class="card-text">Analizza vendite e profitti</p>
+                            <div class="d-grid gap-2">
+                                <a th:href="@{/reportistica}" class="btn btn-success">Dashboard</a>
+                                <a th:href="@{/reportistica/pokemon}" class="btn btn-outline-success">Report Pokémon</a>
+                                <a th:href="@{/reportistica/onepiece}" class="btn btn-outline-success">Report One Piece</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

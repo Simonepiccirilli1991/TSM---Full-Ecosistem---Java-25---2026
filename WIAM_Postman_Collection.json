@@ -1,0 +1,407 @@
+{
+  "info": {
+    "name": "WIAM API - Test Integrazione",
+    "description": "Collezione completa per testare le API del microservizio WIAM",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Pokemon",
+      "item": [
+        {
+          "name": "Create Pokemon Card",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Charizard\",\n  \"dataInserimentoAcquisto\": \"2026-01-29T10:00:00\",\n  \"prezzoAcquisto\": 150.50,\n  \"espansione\": \"Base Set\",\n  \"gradata\": true,\n  \"casaGradazione\": \"PSA\",\n  \"votoGradazione\": \"10\",\n  \"codiceGradazione\": \"12345678\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8081/api/v1/pokemon/addcard",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "v1", "pokemon", "addcard"]
+            }
+          }
+        },
+        {
+          "name": "Get Pokemon Card by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/api/v1/pokemon/getcard/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "v1", "pokemon", "getcard", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "YOUR_CARD_ID"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Pokemon Cards by Status",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/api/v1/pokemon/getcardsbystatus/DISPONIBILE",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "v1", "pokemon", "getcardsbystatus", "DISPONIBILE"]
+            }
+          }
+        },
+        {
+          "name": "Delete Pokemon Card",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "http://localhost:8081/api/v1/pokemon/deletecard/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "v1", "pokemon", "deletecard", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "YOUR_CARD_ID"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Pokemon Sealed",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Booster Box Scarlet & Violet\",\n  \"dataInserimentoAcquisto\": \"2026-01-29T11:00:00\",\n  \"prezzoAcquisto\": 450.00,\n  \"espansione\": \"Scarlet & Violet\",\n  \"codiceProdotto\": \"SV01-BB\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8081/api/v1/pokemon/addsealed",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "v1", "pokemon", "addsealed"]
+            }
+          }
+        },
+        {
+          "name": "Get Pokemon Sealed by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/api/v1/pokemon/getsealed/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "v1", "pokemon", "getsealed", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "YOUR_SEALED_ID"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Pokemon Sealed by Status",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/api/v1/pokemon/getsealedbystatus/DISPONIBILE",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "v1", "pokemon", "getsealedbystatus", "DISPONIBILE"]
+            }
+          }
+        },
+        {
+          "name": "Delete Pokemon Sealed",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "http://localhost:8081/api/v1/pokemon/deletesealed/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "v1", "pokemon", "deletesealed", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "YOUR_SEALED_ID"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Add Vendita to Pokemon Card",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"YOUR_CARD_ID\",\n  \"vendita\": {\n    \"dataVendita\": \"2026-01-29\",\n    \"prezzoVendita\": 200.00,\n    \"costiVendita\": 15.50,\n    \"prezzoNetto\": \"184.50\",\n    \"piattaformaVendita\": \"eBay\"\n  },\n  \"tipoProdotto\": \"CARD\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8081/api/v1/pokemon/addvendita",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "v1", "pokemon", "addvendita"]
+            }
+          }
+        },
+        {
+          "name": "Add Vendita to Pokemon Sealed",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"YOUR_SEALED_ID\",\n  \"vendita\": {\n    \"dataVendita\": \"2026-01-29\",\n    \"prezzoVendita\": 550.00,\n    \"costiVendita\": 25.00,\n    \"prezzoNetto\": \"525.00\",\n    \"piattaformaVendita\": \"Cardmarket\"\n  },\n  \"tipoProdotto\": \"SEALED\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8081/api/v1/pokemon/addvendita",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "v1", "pokemon", "addvendita"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "OnePiece",
+      "item": [
+        {
+          "name": "Create OnePiece Card",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Monkey D. Luffy\",\n  \"dataInserimentoAcquisto\": \"2026-01-29T12:00:00\",\n  \"prezzoAcquisto\": 80.00,\n  \"espansione\": \"OP01\",\n  \"gradata\": false\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8081/api/v1/onepiece/addcard",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "v1", "onepiece", "addcard"]
+            }
+          }
+        },
+        {
+          "name": "Get OnePiece Card by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/api/v1/onepiece/getcard/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "v1", "onepiece", "getcard", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "YOUR_CARD_ID"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get OnePiece Cards by Status",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/api/v1/onepiece/getcardsbystatus/DISPONIBILE",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "v1", "onepiece", "getcardsbystatus", "DISPONIBILE"]
+            }
+          }
+        },
+        {
+          "name": "Delete OnePiece Card",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "http://localhost:8081/api/v1/onepiece/deletecard/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "v1", "onepiece", "deletecard", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "YOUR_CARD_ID"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create OnePiece Sealed",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Booster Box OP-01\",\n  \"dataInserimentoAcquisto\": \"2026-01-29T13:00:00\",\n  \"prezzoAcquisto\": 300.00,\n  \"espansione\": \"Romance Dawn\",\n  \"codiceProdotto\": \"OP01-BB\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8081/api/v1/onepiece/addsealed",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "v1", "onepiece", "addsealed"]
+            }
+          }
+        },
+        {
+          "name": "Get OnePiece Sealed by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/api/v1/onepiece/getsealed/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "v1", "onepiece", "getsealed", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "YOUR_SEALED_ID"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get OnePiece Sealed by Status",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/api/v1/onepiece/getsealedbystatus/DISPONIBILE",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "v1", "onepiece", "getsealedbystatus", "DISPONIBILE"]
+            }
+          }
+        },
+        {
+          "name": "Delete OnePiece Sealed",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "http://localhost:8081/api/v1/onepiece/deletesealed/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "v1", "onepiece", "deletesealed", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "YOUR_SEALED_ID"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Add Vendita to OnePiece Card",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"YOUR_CARD_ID\",\n  \"vendita\": {\n    \"dataVendita\": \"2026-01-29\",\n    \"prezzoVendita\": 120.00,\n    \"costiVendita\": 10.00,\n    \"prezzoNetto\": \"110.00\",\n    \"piattaformaVendita\": \"TCGPlayer\"\n  },\n  \"tipoProdotto\": \"CARD\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8081/api/v1/onepiece/addvendita",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "v1", "onepiece", "addvendita"]
+            }
+          }
+        },
+        {
+          "name": "Add Vendita to OnePiece Sealed",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"YOUR_SEALED_ID\",\n  \"vendita\": {\n    \"dataVendita\": \"2026-01-29\",\n    \"prezzoVendita\": 380.00,\n    \"costiVendita\": 20.00,\n    \"prezzoNetto\": \"360.00\",\n    \"piattaformaVendita\": \"Amazon\"\n  },\n  \"tipoProdotto\": \"SEALED\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8081/api/v1/onepiece/addvendita",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "v1", "onepiece", "addvendita"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

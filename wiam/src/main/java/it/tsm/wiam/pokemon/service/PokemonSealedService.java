@@ -42,7 +42,8 @@ public class PokemonSealedService {
         entity.setId(id);
         entity.setNome(request.nome());
         entity.setEspansione(request.espansione());
-        entity.setStato(PokemonCostants.Stati.ACQUISTATO);
+        entity.setStatoAcquisto(PokemonCostants.Stati.ACQUISTATO);
+        entity.setStato("DISPONIBILE");
         entity.setCodiceProdotto(request.codiceProdotto());
         entity.setDataInserimentoAcquisto(request.dataInserimentoAcquisto().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         entity.setPrezzoAcquisto(request.prezzoAcquisto());

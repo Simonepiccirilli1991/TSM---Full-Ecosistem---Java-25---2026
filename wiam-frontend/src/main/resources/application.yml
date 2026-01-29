@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+wiam:
+  backend:
+    url: http://localhost:8081
+
+spring:
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+  application:
+    name: wiam-frontend
+
+logging:
+  level:
+    it.tsm.wiamfrontend: DEBUG
+    org.springframework.web.reactive.function.client: DEBUG

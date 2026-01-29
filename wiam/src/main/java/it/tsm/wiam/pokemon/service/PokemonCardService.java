@@ -37,7 +37,8 @@ public class PokemonCardService {
         acquistoPokemon.setEspansione(request.espansione());
         acquistoPokemon.setPrezzoAcquisto(request.prezzoAcquisto());
         acquistoPokemon.setDataInserimentoAcquisto(request.dataInserimentoAcquisto().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        acquistoPokemon.setStato(PokemonCostants.Stati.ACQUISTATO);
+        acquistoPokemon.setStatoAcquisto(PokemonCostants.Stati.ACQUISTATO);
+        acquistoPokemon.setStato("DISPONIBILE");
         // genero id
         var cardId = pokemonUtil.createIdPokemonCard();
         // setto id

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}">
+            <i class="bi bi-card-checklist"></i> WIAM TCG
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="pokemonDropdown" role="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-lightning-fill"></i> Pokémon
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/pokemon/cards}">Carte</a></li>
+                        <li><a class="dropdown-item" th:href="@{/pokemon/sealed}">Sealed</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="onepieceDropdown" role="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-flag-fill"></i> One Piece
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/onepiece/cards}">Carte</a></li>
+                        <li><a class="dropdown-item" th:href="@{/onepiece/sealed}">Sealed</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/reportistica}">
+                        <i class="bi bi-graph-up"></i> Reportistica
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+</html>

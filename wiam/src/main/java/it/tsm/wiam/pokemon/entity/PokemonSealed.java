@@ -14,10 +14,11 @@ public class PokemonSealed {
     private String nome;
     private String dataInserimentoAcquisto;
     private String dataLastUpdate;
-    private String stato; // acquistato, venduto
+    private String statoAcquisto; // acquistato, venduto
     private Double prezzoAcquisto;
     private String espansione;
     private String codiceProdotto;
     private byte[] foto;
     private Vendita vendita;
+    private String stato; // DISPONIBILE, VENDUTO
 }

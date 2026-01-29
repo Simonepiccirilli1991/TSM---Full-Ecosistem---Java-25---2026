@@ -72,6 +72,9 @@ public class AddVenditaService {
         // setto vendita su acquisto
         acquisto.setVendita(vendita);
         acquisto.setDataLastUpdate(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        // updato lo stato
+        acquisto.setStato("VENDUTO");
+        acquisto.setStatoAcquisto("NON DISPONIBILE");
         // salvo a db
         pokemonCardRepo.save(acquisto);
         // setto response
@@ -88,6 +91,8 @@ public class AddVenditaService {
 
         // setto vendita su acquisto
         acquisto.setVendita(vendita);
+        acquisto.setStato("VENDUTO");
+        acquisto.setStatoAcquisto("NON DISPONIBILE");
         acquisto.setDataLastUpdate(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         // salvo a db
         pokemonSealedRepo.save(acquisto);

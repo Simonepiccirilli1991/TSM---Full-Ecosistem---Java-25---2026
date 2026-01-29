@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+<body class="d-flex flex-column min-vh-100">
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <main class="flex-shrink-0">
+        <div class="container mt-4">
+            <h2><i class="bi bi-graph-up text-success"></i> Dashboard Reportistica</h2>
+
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show mt-3">
+                <span th:text="${error}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <!-- Sezione Recap Generale -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card shadow">
+                        <div class="card-header bg-primary text-white">
+                            <h5><i class="bi bi-clipboard-data"></i> Recap Generale</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row" th:if="${recap != null}">
+                                <div class="col-md-3 mb-3">
+                                    <div class="card bg-light">
+                                        <div class="card-body text-center">
+                                            <h6 class="text-muted">Totale Acquisti</h6>
+                                            <h3 th:text="${recap.totaleAcquisti} ?: '0'"></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="card bg-light">
+                                        <div class="card-body text-center">
+                                            <h6 class="text-muted">Totale Vendite</h6>
+                                            <h3 th:text="${recap.totaleVendite} ?: '0'"></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="card bg-warning bg-opacity-25">
+                                        <div class="card-body text-center">
+                                            <h6 class="text-muted">Totale Speso</h6>
+                                            <h3 th:text="${recap.totaleSpeso != null ? #numbers.formatDecimal(recap.totaleSpeso, 1, 2) + ' €' : '0.00 €'}"></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="card bg-success bg-opacity-25">
+                                        <div class="card-body text-center">
+                                            <h6 class="text-muted">Totale Incassato</h6>
+                                            <h3 th:text="${recap.totaleIncassato != null ? #numbers.formatDecimal(recap.totaleIncassato, 1, 2) + ' €' : '0.00 €'}"></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div th:if="${recap == null}" class="text-center text-muted">
+                                Nessun dato disponibile
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sezione Profitti -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card shadow">
+                        <div class="card-header bg-success text-white">
+                            <h5><i class="bi bi-cash-coin"></i> Analisi Profitti</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row" th:if="${profitti != null}">
+                                <div class="col-md-4 mb-3">
+                                    <div class="card border-success">
+                                        <div class="card-body text-center">
+                                            <h6 class="text-muted">Profitto Netto Totale</h6>
+                                            <h2 class="text-success" th:text="${profitti.profittoNetto != null ? #numbers.formatDecimal(profitti.profittoNetto, 1, 2) + ' €' : '0.00 €'}"></h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="card border-warning">
+                                        <div class="card-body text-center">
+                                            <h6 class="text-muted">Profitto Pokémon</h6>
+                                            <h3 class="text-warning" th:text="${profitti.profittoPokemon != null ? #numbers.formatDecimal(profitti.profittoPokemon, 1, 2) + ' €' : '0.00 €'}"></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="card border-danger">
+                                        <div class="card-body text-center">
+                                            <h6 class="text-muted">Profitto One Piece</h6>
+                                            <h3 class="text-danger" th:text="${profitti.profittoOnePiece != null ? #numbers.formatDecimal(profitti.profittoOnePiece, 1, 2) + ' €' : '0.00 €'}"></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div th:if="${profitti == null}" class="text-center text-muted">
+                                Nessun dato disponibile
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Collegamenti rapidi -->
+            <div class="row mt-4">
+                <div class="col-md-6 mb-3">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="bi bi-lightning-fill text-warning" style="font-size: 3rem;"></i>
+                            <h5 class="card-title mt-3">Report Pokémon</h5>
+                            <p class="card-text">Visualizza statistiche dettagliate per carte e sealed Pokémon</p>
+                            <a th:href="@{/reportistica/pokemon}" class="btn btn-warning">Visualizza Report</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="bi bi-flag-fill text-danger" style="font-size: 3rem;"></i>
+                            <h5 class="card-title mt-3">Report One Piece</h5>
+                            <p class="card-text">Visualizza statistiche dettagliate per carte e sealed One Piece</p>
+                            <a th:href="@{/reportistica/onepiece}" class="btn btn-danger">Visualizza Report</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>
