@@ -7,6 +7,8 @@ public class PokemonCostants {
 
         public static final String ACQUISTATO = "ACQUISTATO";
         public static final String VENDUTO = "VENDUTO";
+        public static final String DISPONIBILE = "DISPONIBILE";
+        public static final String NON_DISPONIBILE = "NON DISPONIBILE";
     }
 
     public static class CodiciErrori{

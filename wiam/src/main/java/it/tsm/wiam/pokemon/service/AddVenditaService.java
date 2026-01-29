@@ -1,8 +1,6 @@
 package it.tsm.wiam.pokemon.service;
 
 
-import it.tsm.wiam.pokemon.entity.PokemonCard;
-import it.tsm.wiam.pokemon.entity.PokemonSealed;
 import it.tsm.wiam.pokemon.exception.PokemonException;
 import it.tsm.wiam.pokemon.model.AddVenditaRequest;
 import it.tsm.wiam.pokemon.model.AddVenditaResponse;
@@ -16,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static it.tsm.wiam.pokemon.util.PokemonCostants.Stati.NON_DISPONIBILE;
+import static it.tsm.wiam.pokemon.util.PokemonCostants.Stati.VENDUTO;
 import static it.tsm.wiam.pokemon.util.PokemonCostants.TipoProdotto.CARD;
 import static it.tsm.wiam.pokemon.util.PokemonCostants.TipoProdotto.SEALED;
 
@@ -73,8 +73,8 @@ public class AddVenditaService {
         acquisto.setVendita(vendita);
         acquisto.setDataLastUpdate(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         // updato lo stato
-        acquisto.setStato("VENDUTO");
-        acquisto.setStatoAcquisto("NON DISPONIBILE");
+        acquisto.setStato(VENDUTO);
+        acquisto.setStatoAcquisto(NON_DISPONIBILE);
         // salvo a db
         pokemonCardRepo.save(acquisto);
         // setto response
@@ -91,8 +91,8 @@ public class AddVenditaService {
 
         // setto vendita su acquisto
         acquisto.setVendita(vendita);
-        acquisto.setStato("VENDUTO");
-        acquisto.setStatoAcquisto("NON DISPONIBILE");
+        acquisto.setStato(VENDUTO);
+        acquisto.setStatoAcquisto(NON_DISPONIBILE);
         acquisto.setDataLastUpdate(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         // salvo a db
         pokemonSealedRepo.save(acquisto);

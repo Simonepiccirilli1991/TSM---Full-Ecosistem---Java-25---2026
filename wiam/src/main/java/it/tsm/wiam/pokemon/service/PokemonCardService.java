@@ -16,6 +16,8 @@ import org.springframework.util.ObjectUtils;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import static it.tsm.wiam.pokemon.util.PokemonCostants.Stati.DISPONIBILE;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -38,7 +40,7 @@ public class PokemonCardService {
         acquistoPokemon.setPrezzoAcquisto(request.prezzoAcquisto());
         acquistoPokemon.setDataInserimentoAcquisto(request.dataInserimentoAcquisto().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         acquistoPokemon.setStatoAcquisto(PokemonCostants.Stati.ACQUISTATO);
-        acquistoPokemon.setStato("DISPONIBILE");
+        acquistoPokemon.setStato(DISPONIBILE);
         // genero id
         var cardId = pokemonUtil.createIdPokemonCard();
         // setto id

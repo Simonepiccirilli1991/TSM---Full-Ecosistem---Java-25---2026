@@ -19,6 +19,8 @@ import org.springframework.util.ObjectUtils;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import static it.tsm.wiam.pokemon.util.PokemonCostants.Stati.DISPONIBILE;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -43,7 +45,7 @@ public class PokemonSealedService {
         entity.setNome(request.nome());
         entity.setEspansione(request.espansione());
         entity.setStatoAcquisto(PokemonCostants.Stati.ACQUISTATO);
-        entity.setStato("DISPONIBILE");
+        entity.setStato(DISPONIBILE);
         entity.setCodiceProdotto(request.codiceProdotto());
         entity.setDataInserimentoAcquisto(request.dataInserimentoAcquisto().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         entity.setPrezzoAcquisto(request.prezzoAcquisto());
