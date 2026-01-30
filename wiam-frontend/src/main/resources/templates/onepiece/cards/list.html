@@ -28,9 +28,8 @@
                         <tr>
                             <th>Nome</th>
                             <th>Espansione</th>
-                            <th>Rarità</th>
-                            <th>Condizione</th>
-                            <th>Lingua</th>
+                            <th>Gradata</th>
+                            <th>Gradazione</th>
                             <th>Prezzo Acquisto</th>
                             <th>Data Acquisto</th>
                             <th>Stato</th>
@@ -39,11 +38,17 @@
                     </thead>
                     <tbody>
                         <tr th:each="card : ${cards}">
-                            <td th:text="${card.nomeCarta}"></td>
+                            <td th:text="${card.nome}"></td>
                             <td th:text="${card.espansione}"></td>
-                            <td th:text="${card.rarita}"></td>
-                            <td th:text="${card.condizione}"></td>
-                            <td th:text="${card.lingua}"></td>
+                            <td>
+                                <span th:if="${card.gradata}" class="badge bg-info">Sì</span>
+                                <span th:unless="${card.gradata}" class="badge bg-secondary">No</span>
+                            </td>
+                            <td>
+                                <span th:if="${card.gradata}"
+                                      th:text="${card.casaGradazione + ' ' + card.votoGradazione}"></span>
+                                <span th:unless="${card.gradata}">-</span>
+                            </td>
                             <td th:text="${#numbers.formatDecimal(card.prezzoAcquisto, 1, 2)} + ' €'"></td>
                             <td th:text="${card.dataInserimentoAcquisto}"></td>
                             <td>

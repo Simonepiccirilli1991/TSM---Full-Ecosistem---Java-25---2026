@@ -22,35 +22,66 @@
                         </div>
                         <div class="card-body">
                             <div class="row" th:if="${recap != null}">
-                                <div class="col-md-3 mb-3">
+                                <!-- Prima riga: contatori -->
+                                <div class="col-md-4 mb-3">
                                     <div class="card bg-light">
                                         <div class="card-body text-center">
                                             <h6 class="text-muted">Totale Acquisti</h6>
-                                            <h3 th:text="${recap.totaleAcquisti} ?: '0'"></h3>
+                                            <h3 th:text="${recap.totaleAcquisti} ?: '0'">0</h3>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3 mb-3">
-                                    <div class="card bg-light">
-                                        <div class="card-body text-center">
-                                            <h6 class="text-muted">Totale Vendite</h6>
-                                            <h3 th:text="${recap.totaleVendite} ?: '0'"></h3>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <div class="card bg-warning bg-opacity-25">
-                                        <div class="card-body text-center">
-                                            <h6 class="text-muted">Totale Speso</h6>
-                                            <h3 th:text="${recap.totaleSpeso != null ? #numbers.formatDecimal(recap.totaleSpeso, 1, 2) + ' €' : '0.00 €'}"></h3>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-4 mb-3">
                                     <div class="card bg-success bg-opacity-25">
                                         <div class="card-body text-center">
+                                            <h6 class="text-muted">Totale Vendite</h6>
+                                            <h3 th:text="${recap.totaleVendite} ?: '0'">0</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="card bg-warning bg-opacity-25">
+                                        <div class="card-body text-center">
+                                            <h6 class="text-muted">In Vendita</h6>
+                                            <h3 th:text="${recap.totaleInVendita} ?: '0'">0</h3>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Seconda riga: importi -->
+                                <div class="col-md-3 mb-3">
+                                    <div class="card border-warning">
+                                        <div class="card-body text-center">
+                                            <h6 class="text-muted">Totale Speso</h6>
+                                            <h3 class="text-warning" th:text="${recap.totaleSpeso != null ? #numbers.formatDecimal(recap.totaleSpeso, 1, 2) + ' €' : '0.00 €'}">0.00 €</h3>
+                                            <small class="text-muted" th:text="'Media: ' + (${recap.costoMedioAcquisto != null ? #numbers.formatDecimal(recap.costoMedioAcquisto, 1, 2) + ' €' : '0.00 €'})">Media: 0.00 €</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="card border-success">
+                                        <div class="card-body text-center">
                                             <h6 class="text-muted">Totale Incassato</h6>
-                                            <h3 th:text="${recap.totaleIncassato != null ? #numbers.formatDecimal(recap.totaleIncassato, 1, 2) + ' €' : '0.00 €'}"></h3>
+                                            <h3 class="text-success" th:text="${recap.totaleIncassato != null ? #numbers.formatDecimal(recap.totaleIncassato, 1, 2) + ' €' : '0.00 €'}">0.00 €</h3>
+                                            <small class="text-muted" th:text="'Media: ' + (${recap.prezzoMedioVendita != null ? #numbers.formatDecimal(recap.prezzoMedioVendita, 1, 2) + ' €' : '0.00 €'})">Media: 0.00 €</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="card border-danger">
+                                        <div class="card-body text-center">
+                                            <h6 class="text-muted">Costi Vendita</h6>
+                                            <h3 class="text-danger" th:text="${recap.totaleCostiVendita != null ? #numbers.formatDecimal(recap.totaleCostiVendita, 1, 2) + ' €' : '0.00 €'}">0.00 €</h3>
+                                            <small class="text-muted">Spese e commissioni</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="card border-info">
+                                        <div class="card-body text-center">
+                                            <h6 class="text-muted">Ricavo Netto Vendite</h6>
+                                            <h3 class="text-info" th:text="${recap.ricavoNettoVendite != null ? #numbers.formatDecimal(recap.ricavoNettoVendite, 1, 2) + ' €' : '0.00 €'}">0.00 €</h3>
+                                            <small class="text-muted">Incasso - Costi</small>
                                         </div>
                                     </div>
                                 </div>
@@ -71,33 +102,94 @@
                             <h5><i class="bi bi-cash-coin"></i> Analisi Profitti</h5>
                         </div>
                         <div class="card-body">
-                            <div class="row" th:if="${profitti != null}">
-                                <div class="col-md-4 mb-3">
+                            <div class="row" th:if="${recap != null}">
+                                <!-- Profitto Totale -->
+                                <div class="col-md-12 mb-4">
                                     <div class="card border-success">
                                         <div class="card-body text-center">
                                             <h6 class="text-muted">Profitto Netto Totale</h6>
-                                            <h2 class="text-success" th:text="${profitti.profittoNetto != null ? #numbers.formatDecimal(profitti.profittoNetto, 1, 2) + ' €' : '0.00 €'}"></h2>
+                                            <h1 class="display-4"
+                                                th:classappend="${recap.profittoNetto != null and recap.profittoNetto > 0 ? 'text-success' : 'text-danger'}"
+                                                th:text="${recap.profittoNetto != null ? #numbers.formatDecimal(recap.profittoNetto, 1, 2) + ' €' : '0.00 €'}">0.00 €</h1>
+                                            <p class="text-muted mb-0">
+                                                <span th:if="${recap.marginePercentuale != null}">
+                                                    Margine: <strong th:text="${#numbers.formatDecimal(recap.marginePercentuale, 1, 2) + '%'}">0.00%</strong>
+                                                </span>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4 mb-3">
-                                    <div class="card border-warning">
-                                        <div class="card-body text-center">
-                                            <h6 class="text-muted">Profitto Pokémon</h6>
-                                            <h3 class="text-warning" th:text="${profitti.profittoPokemon != null ? #numbers.formatDecimal(profitti.profittoPokemon, 1, 2) + ' €' : '0.00 €'}"></h3>
+
+                                <!-- Dettaglio per tipo prodotto -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card border-warning h-100">
+                                        <div class="card-header bg-warning bg-opacity-25">
+                                            <h6 class="mb-0"><i class="bi bi-lightning-fill"></i> Pokémon</h6>
+                                        </div>
+                                        <div class="card-body" th:if="${recap.pokemon != null}">
+                                            <div class="row text-center">
+                                                <div class="col-6 mb-2">
+                                                    <small class="text-muted d-block">Acquisti</small>
+                                                    <strong th:text="${recap.pokemon.totaleAcquisti}">0</strong>
+                                                </div>
+                                                <div class="col-6 mb-2">
+                                                    <small class="text-muted d-block">Vendite</small>
+                                                    <strong th:text="${recap.pokemon.totaleVendite}">0</strong>
+                                                </div>
+                                                <div class="col-12 mb-2">
+                                                    <small class="text-muted d-block">Speso</small>
+                                                    <strong class="text-warning" th:text="${recap.pokemon.totaleSpeso != null ? #numbers.formatDecimal(recap.pokemon.totaleSpeso, 1, 2) + ' €' : '0.00 €'}">0.00 €</strong>
+                                                </div>
+                                                <div class="col-12 mb-2">
+                                                    <small class="text-muted d-block">Incassato</small>
+                                                    <strong class="text-success" th:text="${recap.pokemon.totaleIncassato != null ? #numbers.formatDecimal(recap.pokemon.totaleIncassato, 1, 2) + ' €' : '0.00 €'}">0.00 €</strong>
+                                                </div>
+                                                <div class="col-12">
+                                                    <hr class="my-2">
+                                                    <small class="text-muted d-block">Profitto</small>
+                                                    <h4 th:classappend="${recap.pokemon.profittoNetto != null and recap.pokemon.profittoNetto > 0 ? 'text-success' : 'text-danger'}"
+                                                        th:text="${recap.pokemon.profittoNetto != null ? #numbers.formatDecimal(recap.pokemon.profittoNetto, 1, 2) + ' €' : '0.00 €'}">0.00 €</h4>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4 mb-3">
-                                    <div class="card border-danger">
-                                        <div class="card-body text-center">
-                                            <h6 class="text-muted">Profitto One Piece</h6>
-                                            <h3 class="text-danger" th:text="${profitti.profittoOnePiece != null ? #numbers.formatDecimal(profitti.profittoOnePiece, 1, 2) + ' €' : '0.00 €'}"></h3>
+
+                                <div class="col-md-6 mb-3">
+                                    <div class="card border-danger h-100">
+                                        <div class="card-header bg-danger bg-opacity-25">
+                                            <h6 class="mb-0"><i class="bi bi-flag-fill"></i> One Piece</h6>
+                                        </div>
+                                        <div class="card-body" th:if="${recap.onePiece != null}">
+                                            <div class="row text-center">
+                                                <div class="col-6 mb-2">
+                                                    <small class="text-muted d-block">Acquisti</small>
+                                                    <strong th:text="${recap.onePiece.totaleAcquisti}">0</strong>
+                                                </div>
+                                                <div class="col-6 mb-2">
+                                                    <small class="text-muted d-block">Vendite</small>
+                                                    <strong th:text="${recap.onePiece.totaleVendite}">0</strong>
+                                                </div>
+                                                <div class="col-12 mb-2">
+                                                    <small class="text-muted d-block">Speso</small>
+                                                    <strong class="text-warning" th:text="${recap.onePiece.totaleSpeso != null ? #numbers.formatDecimal(recap.onePiece.totaleSpeso, 1, 2) + ' €' : '0.00 €'}">0.00 €</strong>
+                                                </div>
+                                                <div class="col-12 mb-2">
+                                                    <small class="text-muted d-block">Incassato</small>
+                                                    <strong class="text-success" th:text="${recap.onePiece.totaleIncassato != null ? #numbers.formatDecimal(recap.onePiece.totaleIncassato, 1, 2) + ' €' : '0.00 €'}">0.00 €</strong>
+                                                </div>
+                                                <div class="col-12">
+                                                    <hr class="my-2">
+                                                    <small class="text-muted d-block">Profitto</small>
+                                                    <h4 th:classappend="${recap.onePiece.profittoNetto != null and recap.onePiece.profittoNetto > 0 ? 'text-success' : 'text-danger'}"
+                                                        th:text="${recap.onePiece.profittoNetto != null ? #numbers.formatDecimal(recap.onePiece.profittoNetto, 1, 2) + ' €' : '0.00 €'}">0.00 €</h4>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div th:if="${profitti == null}" class="text-center text-muted">
+                            <div th:if="${recap == null}" class="text-center text-muted">
                                 Nessun dato disponibile
                             </div>
                         </div>

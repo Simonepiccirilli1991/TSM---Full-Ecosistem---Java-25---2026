@@ -18,7 +18,6 @@ public class ReportisticaController {
     public String dashboard(Model model) {
         try {
             model.addAttribute("recap", reportisticaService.getRecapGenerale());
-            model.addAttribute("profitti", reportisticaService.getProfittiTotali());
             return "reportistica/dashboard";
         } catch (Exception e) {
             model.addAttribute("error", "Errore nel caricamento reportistica: " + e.getMessage());

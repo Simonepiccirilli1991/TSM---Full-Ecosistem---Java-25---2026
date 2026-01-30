@@ -13,10 +13,27 @@
                     <h5>Informazioni Carta</h5>
                 </div>
                 <div class="card-body">
-                    <p><strong>Nome:</strong> <span th:text="${card.nome}"></span></p>
-                    <p><strong>Espansione:</strong> <span th:text="${card.espansione}"></span></p>
-                    <p th:if="${card.gradata}"><strong>Gradazione:</strong> <span th:text="${card.casaGradazione + ' ' + card.votoGradazione}"></span></p>
-                    <p><strong>Prezzo Acquisto:</strong> <span th:text="${#numbers.formatDecimal(card.prezzoAcquisto, 1, 2)} + ' €'"></span></p>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <p><strong>Nome:</strong> <span th:text="${card.nome}"></span></p>
+                            <p><strong>Espansione:</strong> <span th:text="${card.espansione}"></span></p>
+                            <p th:if="${card.gradata}"><strong>Gradazione:</strong> <span th:text="${card.casaGradazione + ' ' + card.votoGradazione}"></span></p>
+                            <p><strong>Prezzo Acquisto:</strong> <span th:text="${#numbers.formatDecimal(card.prezzoAcquisto, 1, 2)} + ' €'"></span></p>
+                        </div>
+                        <div class="col-md-4 text-center" th:if="${fotoBase64 != null}">
+                            <img th:src="'data:image/jpeg;base64,' + ${fotoBase64}"
+                                 alt="Foto Carta"
+                                 class="img-fluid rounded shadow"
+                                 style="max-height: 200px; object-fit: contain;">
+                            <p class="text-muted small mt-2">Foto della carta</p>
+                        </div>
+                        <div class="col-md-4 text-center" th:unless="${fotoBase64 != null}">
+                            <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
+                            </div>
+                            <p class="text-muted small mt-2">Nessuna foto disponibile</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -40,11 +57,12 @@
                                 <label class="form-label">Piattaforma Vendita *</label>
                                 <select class="form-select" th:field="*{piattaformaVendita}" required>
                                     <option value="">Seleziona...</option>
-                                    <option value="Cardmarket">Cardmarket</option>
-                                    <option value="eBay">eBay</option>
-                                    <option value="Vinted">Vinted</option>
-                                    <option value="Amazon">Amazon</option>
-                                    <option value="Vendita Diretta">Vendita Diretta</option>
+                                    <option value="ebay">eBay</option>
+                                    <option value="vinted">Vinted</option>
+                                    <option value="subito">Subito</option>
+                                    <option value="marketplace">Marketplace</option>
+                                    <option value="scambio a mano">Scambio a Mano</option>
+                                    <option value="altro">Altro</option>
                                 </select>
                             </div>
                             <div class="col-md-4 mb-3">

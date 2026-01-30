@@ -13,10 +13,27 @@
                     <h5>Informazioni Sealed</h5>
                 </div>
                 <div class="card-body">
-                    <p><strong>Nome:</strong> <span th:text="${sealed.nome}"></span></p>
-                    <p><strong>Espansione:</strong> <span th:text="${sealed.espansione}"></span></p>
-                    <p><strong>Codice Prodotto:</strong> <span th:text="${sealed.codiceProdotto}"></span></p>
-                    <p><strong>Prezzo Acquisto:</strong> <span th:text="${#numbers.formatDecimal(sealed.prezzoAcquisto, 1, 2)} + ' €'"></span></p>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <p><strong>Nome:</strong> <span th:text="${sealed.nome}"></span></p>
+                            <p><strong>Espansione:</strong> <span th:text="${sealed.espansione}"></span></p>
+                            <p><strong>Codice Prodotto:</strong> <span th:text="${sealed.codiceProdotto}"></span></p>
+                            <p><strong>Prezzo Acquisto:</strong> <span th:text="${#numbers.formatDecimal(sealed.prezzoAcquisto, 1, 2)} + ' €'"></span></p>
+                        </div>
+                        <div class="col-md-4 text-center" th:if="${fotoBase64 != null}">
+                            <img th:src="'data:image/jpeg;base64,' + ${fotoBase64}"
+                                 alt="Foto Sealed"
+                                 class="img-fluid rounded shadow"
+                                 style="max-height: 200px; object-fit: contain;">
+                            <p class="text-muted small mt-2">Foto del prodotto</p>
+                        </div>
+                        <div class="col-md-4 text-center" th:unless="${fotoBase64 != null}">
+                            <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
+                            </div>
+                            <p class="text-muted small mt-2">Nessuna foto disponibile</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -40,11 +57,12 @@
                                 <label class="form-label">Piattaforma Vendita *</label>
                                 <select class="form-select" th:field="*{piattaformaVendita}" required>
                                     <option value="">Seleziona...</option>
-                                    <option value="Cardmarket">Cardmarket</option>
-                                    <option value="eBay">eBay</option>
-                                    <option value="Vinted">Vinted</option>
-                                    <option value="Amazon">Amazon</option>
-                                    <option value="Vendita Diretta">Vendita Diretta</option>
+                                    <option value="ebay">eBay</option>
+                                    <option value="vinted">Vinted</option>
+                                    <option value="subito">Subito</option>
+                                    <option value="marketplace">Marketplace</option>
+                                    <option value="scambio a mano">Scambio a Mano</option>
+                                    <option value="altro">Altro</option>
                                 </select>
                             </div>
                             <div class="col-md-4 mb-3">

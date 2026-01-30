@@ -11,7 +11,49 @@
             <div class="card mt-4">
                 <div class="card-body">
                     <form th:action="${card.id != null ? '/onepiece/cards/' + card.id : '/onepiece/cards'}"
-                          th:object="${card}" method="post">
+                          th:object="${card}" method="post" enctype="multipart/form-data">
+
+                        <!-- Sezione Upload Foto -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h5 class="card-title"><i class="bi bi-image"></i> Foto Carta</h5>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <label class="form-label">Carica Foto</label>
+                                                <input type="file" class="form-control" id="fotoInput" name="fotoFile"
+                                                       accept="image/*" onchange="previewImage(event)">
+                                                <small class="text-muted">Formati supportati: JPG, PNG, GIF (max 5MB)</small>
+                                            </div>
+                                            <div class="col-md-4 text-center">
+                                                <div id="imagePreviewContainer" style="display: none;">
+                                                    <img id="imagePreview" src="" alt="Preview"
+                                                         class="img-fluid rounded shadow"
+                                                         style="max-height: 150px; object-fit: contain;">
+                                                    <p class="text-muted small mt-2">Anteprima</p>
+                                                </div>
+                                                <div id="noImagePlaceholder" th:if="${card.foto == null}">
+                                                    <div class="bg-white rounded d-flex align-items-center justify-content-center"
+                                                         style="height: 150px; border: 2px dashed #ccc;">
+                                                        <i class="bi bi-image text-muted" style="font-size: 2rem;"></i>
+                                                    </div>
+                                                    <p class="text-muted small mt-2">Nessuna foto</p>
+                                                </div>
+                                                <div id="existingImageContainer" th:if="${card.foto != null}">
+                                                    <img th:src="'data:image/jpeg;base64,' + ${#strings.arrayJoin(T(java.util.Base64).getEncoder().encode(card.foto),'')}"
+                                                         alt="Foto Esistente"
+                                                         class="img-fluid rounded shadow"
+                                                         style="max-height: 150px; object-fit: contain;">
+                                                    <p class="text-muted small mt-2">Foto attuale</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Nome Carta *</label>
@@ -71,5 +113,26 @@
     </main>
 
     <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <script>
+        function previewImage(event) {
+            const file = event.target.files[0];
+            const previewContainer = document.getElementById('imagePreviewContainer');
+            const preview = document.getElementById('imagePreview');
+            const placeholder = document.getElementById('noImagePlaceholder');
+            const existingContainer = document.getElementById('existingImageContainer');
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    previewContainer.style.display = 'block';
+                    if (placeholder) placeholder.style.display = 'none';
+                    if (existingContainer) existingContainer.style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
 </body>
 </html>
