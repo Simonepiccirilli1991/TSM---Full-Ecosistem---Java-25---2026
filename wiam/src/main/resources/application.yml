@@ -9,7 +9,7 @@ server:
 
   logging:
     level:
-      it.posteitaliane.orchestrator.advice: { $LOG_LEVEL:INFO }
+      it.**.advice: { $LOG_LEVEL:INFO }
     pattern.level: '%5p [traceId=%X{tracingId}]'
 
   #aggignere stringa di connessione a mongo db locale

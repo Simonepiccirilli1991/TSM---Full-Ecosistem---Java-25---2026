@@ -10,7 +10,8 @@ public class ReportDto {
     private String nome;
     private String dataInserimentoAcquisto;
     private String dataLastUpdate;
-    private String stato; // acquistato, venduto
+    private String stato; // disponibile / non disponibile
+    private String statoAcquisto; //venduto/acquistato
     private Double prezzoAcquisto;
     private String espansione;
     private boolean gradata;

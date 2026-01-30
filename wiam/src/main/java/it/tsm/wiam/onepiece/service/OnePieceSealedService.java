@@ -86,7 +86,7 @@ public class OnePieceSealedService {
         return carta;
     }
 
-    // get carta by stato
+    // get sealed by stato
     public List<OnePieceSealed> getSealedByStato(String stato){
         log.info("GetSealedByStato onepiece service started with stato: {}", stato);
 
@@ -96,6 +96,15 @@ public class OnePieceSealedService {
         return carte;
     }
 
+    // get sealed find all
+    public List<OnePieceSealed> getSealedFindAll(){
+        log.info("GetSealedFindAll onepiece service started ");
+
+        var carte = onePieceSealedRepo.findAll();
+
+        log.info("GetSealedFindAll onepiece ended successfully with response: {}", carte);
+        return carte;
+    }
 
     // filtering by stato (acquisto o) e range of time  su data acquisto
     public List<OnePieceSealed> filteringByStatoAndRangeTimeAcquistoSealed(String stato, String dataInizio, String dataFine){

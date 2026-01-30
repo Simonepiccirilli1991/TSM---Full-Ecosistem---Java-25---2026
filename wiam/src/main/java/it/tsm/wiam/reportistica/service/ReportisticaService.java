@@ -12,6 +12,7 @@ import it.tsm.wiam.reportistica.util.ReportisticaUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import tools.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
@@ -36,18 +37,16 @@ public class ReportisticaService {
         log.info("ReportisticaService started with raw request: {}",request);
 
         // filtro per reportistica
-        var resp = switch (request.tipoProdotto()){
+        var resp = switch (request){
 
-            case "Pokemon" -> {
+            case ReportisticaRequest i when "Pokemon".equals(i.tipoProdotto()) -> {
                 var listaPokemon = filteringPokemon(request.stato());
                 yield new ReportisticaResponse(listaPokemon);
             }
-
-            case "OnePiece" -> {
+            case ReportisticaRequest i when "OnePiece".equals(i.tipoProdotto()) -> {
                 var listaOnePiece = filteringOnePiece(request.stato());
                 yield new ReportisticaResponse(listaOnePiece);
             }
-
 
             default -> {
                 log.info("Reportistica for pokemon e onepiece");
@@ -72,7 +71,7 @@ public class ReportisticaService {
     private List<ReportDto> filteringPokemon(String stato){
         log.info("Filtering reportistica Pokemon per stato: {}",stato);
 
-        var carteSingole = pokemonCardService.getCartaByStato(stato);
+        var carteSingole = (ObjectUtils.isEmpty(stato)) ? pokemonCardService.findAllCard() :pokemonCardService.getCartaByStato(stato);
         var listaReport = new ArrayList<ReportDto>();
 
         // devo rimappare i dto sulla resp per carte
@@ -85,7 +84,7 @@ public class ReportisticaService {
         });
 
         // ora riprendo le card sealed
-        var carteSealed = pokemonSealedService.getSealedByStato(stato);
+        var carteSealed = (ObjectUtils.isEmpty(stato)) ? pokemonSealedService.findAllSealed() : pokemonSealedService.getSealedByStato(stato);
         // devo rimappare i dto dei sealed sulla resp
         carteSealed.forEach(i -> {
             var dto = (ReportDto) reportisticaUtil.mappingEntityToDTO(i, ReportDto.class);
@@ -102,7 +101,7 @@ public class ReportisticaService {
     private List<ReportDto> filteringOnePiece(String stato){
         log.info("Filtering reportistica OnePiece per stato: {}",stato);
 
-        var carteSingole = onePieceCardService.getCartaByStato(stato);
+        var carteSingole = (ObjectUtils.isEmpty(stato)) ?  onePieceCardService.getCartaFinaAll() : onePieceCardService.getCartaByStato(stato);
         var listaReport = new ArrayList<ReportDto>();
 
         // devo rimappare i dto sulla resp per carte
@@ -115,7 +114,7 @@ public class ReportisticaService {
         });
 
         // ora riprendo le card sealed
-        var carteSealed = onePieceSealedService.getSealedByStato(stato);
+        var carteSealed =  (ObjectUtils.isEmpty(stato)) ? onePieceSealedService.getSealedFindAll() : onePieceSealedService.getSealedByStato(stato);
         // devo rimappare i dto dei sealed sulla resp
         carteSealed.forEach(i -> {
             var dto = (ReportDto) reportisticaUtil.mappingEntityToDTO(i, ReportDto.class);

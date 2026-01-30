@@ -100,6 +100,15 @@ public class PokemonCardService {
         log.info("GetCartaByStato ended successfully with response size: {}", carte.size());
         return carte;
     }
+    // find all
+    public List<PokemonCard> findAllCard(){
+        log.info("GetCartaByStato service started with findall: ");
+
+        var carte = pokemonCardRepo.findAll();
+
+        log.info("GetCartaByStato ended successfully with response size: {}", carte.size());
+        return carte;
+    }
 
     // filtering by stato (acquisto o) e range of time  su data acquisto
     public List<PokemonCard> filteringByStatoAndRangeTimeAcquistoCard(String stato, String dataInizio, String dataFine){

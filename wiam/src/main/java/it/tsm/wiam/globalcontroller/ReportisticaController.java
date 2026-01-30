@@ -39,5 +39,5 @@ public class ReportisticaController {
     }
 
 
-    //TODO: fare test one piece singolo e poi fare check su reportistica
+    //TODO: dettaglio reportistica da rivedere e poi capire come continuarea
 }

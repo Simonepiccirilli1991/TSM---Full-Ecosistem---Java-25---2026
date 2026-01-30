@@ -28,7 +28,6 @@ public class OnePieceCardService {
     private final PokemonUtil pokemonUtil;
 
     // add carta
-    @Transactional
     public AddOnePieceCardResponse aggiungiCartaOnePiece(AddOnePieceCardRequest request){
         log.info("Aggiungi Carta OnePiece service started with raw request: {}",request);
         // valido request
@@ -99,6 +98,16 @@ public class OnePieceCardService {
         var carte = onePieceCardRepo.findByStato(stato);
 
         log.info("GetCartaByStato onepiece ended successfully with response size: {}", carte.size());
+        return carte;
+    }
+
+    // get carta find all
+    public List<OnePieceCard> getCartaFinaAll(){
+        log.info("GetCartaFindAll onepiece service started ");
+
+        var carte = onePieceCardRepo.findAll();
+
+        log.info("GetCartaFindAll onepiece ended successfully with response size: {}", carte.size());
         return carte;
     }
 

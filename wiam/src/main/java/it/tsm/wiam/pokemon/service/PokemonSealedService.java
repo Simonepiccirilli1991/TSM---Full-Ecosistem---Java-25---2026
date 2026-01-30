@@ -87,13 +87,22 @@ public class PokemonSealedService {
         return carta;
     }
 
-    // get carta by stato
+    // get sealed by stato
     public List<PokemonSealed> getSealedByStato(String stato){
         log.info("GetSealedByStato service started with stato: {}", stato);
 
         var carte = pokemonSealedRepo.findByStato(stato);
 
         log.info("GetSealedByStato ended successfully with response: {}", carte);
+        return carte;
+    }
+    // get sealed find all
+    public List<PokemonSealed> findAllSealed(){
+        log.info("GetSealedFindAll service started with findall");
+
+        var carte = pokemonSealedRepo.findAll();
+
+        log.info("GetSealedFindAll ended successfully with response: {}", carte);
         return carte;
     }
 
