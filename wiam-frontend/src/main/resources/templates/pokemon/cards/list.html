@@ -22,8 +22,37 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
 
+            <!-- Riepilogo stato prodotti -->
+            <div class="stato-summary" th:if="${!#lists.isEmpty(cards)}">
+                <div class="stato-summary-item summary-totale">
+                    <i class="bi bi-collection-fill"></i>
+                    <span>Totale: <strong th:text="${#lists.size(cards)}">0</strong></span>
+                </div>
+                <div class="stato-summary-item summary-disponibile">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>Disponibili: <strong th:text="${cards.?[stato == 'DISPONIBILE' || stato == 'disponibile'].size()}">0</strong></span>
+                </div>
+                <div class="stato-summary-item summary-venduto">
+                    <i class="bi bi-x-circle-fill"></i>
+                    <span>Venduti: <strong th:text="${cards.?[stato == 'VENDUTO' || stato == 'venduto'].size()}">0</strong></span>
+                </div>
+            </div>
+
+            <!-- Filtri stato -->
+            <div class="filter-buttons" th:if="${!#lists.isEmpty(cards)}">
+                <button class="btn btn-outline-primary filter-btn active" onclick="filterByStatus('all')">
+                    <i class="bi bi-grid-fill"></i> Tutti
+                </button>
+                <button class="btn btn-outline-success filter-btn" onclick="filterByStatus('disponibile')">
+                    <i class="bi bi-check-circle"></i> Solo Disponibili
+                </button>
+                <button class="btn btn-outline-danger filter-btn" onclick="filterByStatus('venduto')">
+                    <i class="bi bi-x-circle"></i> Solo Venduti
+                </button>
+            </div>
+
             <div class="table-responsive">
-                <table class="table table-striped table-hover">
+                <table class="table table-hover" id="cardsTable">
                     <thead class="table-dark">
                         <tr>
                             <th>Nome</th>
@@ -37,7 +66,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="card : ${cards}">
+                        <tr th:each="card : ${cards}"
+                            th:classappend="${card.stato == 'DISPONIBILE' || card.stato == 'disponibile' ? 'row-disponibile' : 'row-venduto'}"
+                            th:attr="data-status=${card.stato}">
                             <td th:text="${card.nome}"></td>
                             <td th:text="${card.espansione}"></td>
                             <td>
@@ -51,20 +82,37 @@
                             <td th:text="${#numbers.formatDecimal(card.prezzoAcquisto, 1, 2)} + ' €'"></td>
                             <td th:text="${card.dataInserimentoAcquisto}"></td>
                             <td>
-                                <span th:if="${card.stato == 'DISPONIBILE'}" class="badge bg-success">Disponibile</span>
-                                <span th:if="${card.stato == 'VENDUTO'}" class="badge bg-danger">Venduto</span>
+                                <span th:if="${card.stato == 'DISPONIBILE' || card.stato == 'disponibile'}"
+                                      class="badge badge-stato badge-disponibile">
+                                    <i class="bi bi-check-circle-fill stato-icon"></i>
+                                    Disponibile
+                                </span>
+                                <span th:if="${card.stato == 'VENDUTO' || card.stato == 'venduto'}"
+                                      class="badge badge-stato badge-venduto">
+                                    <i class="bi bi-bag-check-fill stato-icon"></i>
+                                    Venduto
+                                </span>
+                                <span th:if="${card.stato != 'DISPONIBILE' && card.stato != 'disponibile' && card.stato != 'VENDUTO' && card.stato != 'venduto'}"
+                                      class="badge badge-stato badge-non-disponibile">
+                                    <i class="bi bi-question-circle-fill stato-icon"></i>
+                                    <span th:text="${card.stato}">N/D</span>
+                                </span>
                             </td>
                             <td>
-                                <a th:href="@{/pokemon/cards/{id}/edit(id=${card.id})}" class="btn btn-sm btn-warning">
+                                <a th:href="@{/pokemon/cards/{id}/edit(id=${card.id})}"
+                                   class="btn btn-sm btn-warning"
+                                   th:title="${card.stato == 'VENDUTO' || card.stato == 'venduto' ? 'Modifica (già venduto)' : 'Modifica'}">
                                     <i class="bi bi-pencil"></i>
                                 </a>
-                                <a th:if="${card.stato == 'DISPONIBILE'}"
+                                <a th:if="${card.stato == 'DISPONIBILE' || card.stato == 'disponibile'}"
                                    th:href="@{/pokemon/cards/{id}/vendita(id=${card.id})}"
-                                   class="btn btn-sm btn-success">
+                                   class="btn btn-sm btn-success"
+                                   title="Vendi carta">
                                     <i class="bi bi-cart-check"></i>
                                 </a>
                                 <a th:href="@{/pokemon/cards/{id}/delete(id=${card.id})}"
                                    class="btn btn-sm btn-danger"
+                                   th:title="${card.stato == 'VENDUTO' || card.stato == 'venduto' ? 'Elimina vendita' : 'Elimina carta'}"
                                    onclick="return confirm('Sei sicuro di voler eliminare questa carta?')">
                                     <i class="bi bi-trash"></i>
                                 </a>
@@ -76,6 +124,31 @@
                     </tbody>
                 </table>
             </div>
+
+            <script>
+                // Funzione per filtrare le righe per stato
+                function filterByStatus(status) {
+                    const table = document.getElementById('cardsTable');
+                    const rows = table.querySelectorAll('tbody tr[data-status]');
+                    const buttons = document.querySelectorAll('.filter-btn');
+
+                    // Aggiorna bottoni attivi
+                    buttons.forEach(btn => btn.classList.remove('active'));
+                    event.target.closest('.filter-btn').classList.add('active');
+
+                    // Filtra righe
+                    rows.forEach(row => {
+                        const rowStatus = row.getAttribute('data-status').toLowerCase();
+                        if (status === 'all') {
+                            row.style.display = '';
+                        } else if (status === 'disponibile') {
+                            row.style.display = rowStatus === 'disponibile' ? '' : 'none';
+                        } else if (status === 'venduto') {
+                            row.style.display = rowStatus === 'venduto' ? '' : 'none';
+                        }
+                    });
+                }
+            </script>
         </div>
     </main>
 

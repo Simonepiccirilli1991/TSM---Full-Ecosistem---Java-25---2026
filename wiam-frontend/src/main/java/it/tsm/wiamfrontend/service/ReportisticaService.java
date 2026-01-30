@@ -43,100 +43,205 @@ public class ReportisticaService {
     public Map<String, Object> getReportPokemon() {
         log.debug("Fetching report Pokemon");
         ReportRequest request = new ReportRequest("POKEMON", null);
-        return webClient.post()
+
+        ReportResponseDTO response = webClient.post()
                 .uri("/api/v1/report/creareport")
                 .bodyValue(request)
                 .retrieve()
-                .bodyToMono(Map.class)
+                .bodyToMono(ReportResponseDTO.class)
                 .block();
+
+        if (response == null || response.getReport() == null) {
+            return Map.of(
+                "totaleProdotti", 0,
+                "disponibili", 0,
+                "venduti", 0,
+                "valoreTotale", 0.0
+            );
+        }
+
+        return processaReportSemplice(response.getReport());
     }
 
     public Map<String, Object> getReportPokemonCards() {
         log.debug("Fetching report Pokemon cards");
         ReportRequest request = new ReportRequest("POKEMON", "CARD");
-        return webClient.post()
+
+        ReportResponseDTO response = webClient.post()
                 .uri("/api/v1/report/creareport")
                 .bodyValue(request)
                 .retrieve()
-                .bodyToMono(Map.class)
+                .bodyToMono(ReportResponseDTO.class)
                 .block();
+
+        if (response == null || response.getReport() == null) {
+            return Map.of(
+                "totale", 0,
+                "disponibili", 0,
+                "vendute", 0,
+                "valore", 0.0
+            );
+        }
+
+        return processaReportDettaglio(response.getReport());
     }
 
     public Map<String, Object> getReportPokemonSealed() {
         log.debug("Fetching report Pokemon sealed");
         ReportRequest request = new ReportRequest("POKEMON", "SEALED");
-        return webClient.post()
+
+        ReportResponseDTO response = webClient.post()
                 .uri("/api/v1/report/creareport")
                 .bodyValue(request)
                 .retrieve()
-                .bodyToMono(Map.class)
+                .bodyToMono(ReportResponseDTO.class)
                 .block();
+
+        if (response == null || response.getReport() == null) {
+            return Map.of(
+                "totale", 0,
+                "disponibili", 0,
+                "venduti", 0,
+                "valore", 0.0
+            );
+        }
+
+        return processaReportDettaglio(response.getReport());
     }
 
     public Map<String, Object> getReportOnePiece() {
         log.debug("Fetching report One Piece");
         ReportRequest request = new ReportRequest("ONEPIECE", null);
-        return webClient.post()
+
+        ReportResponseDTO response = webClient.post()
                 .uri("/api/v1/report/creareport")
                 .bodyValue(request)
                 .retrieve()
-                .bodyToMono(Map.class)
+                .bodyToMono(ReportResponseDTO.class)
                 .block();
+
+        if (response == null || response.getReport() == null) {
+            return Map.of(
+                "totaleProdotti", 0,
+                "disponibili", 0,
+                "venduti", 0,
+                "valoreTotale", 0.0
+            );
+        }
+
+        return processaReportSemplice(response.getReport());
     }
 
     public Map<String, Object> getReportOnePieceCards() {
         log.debug("Fetching report One Piece cards");
         ReportRequest request = new ReportRequest("ONEPIECE", "CARD");
-        return webClient.post()
+
+        ReportResponseDTO response = webClient.post()
                 .uri("/api/v1/report/creareport")
                 .bodyValue(request)
                 .retrieve()
-                .bodyToMono(Map.class)
+                .bodyToMono(ReportResponseDTO.class)
                 .block();
+
+        if (response == null || response.getReport() == null) {
+            return Map.of(
+                "totale", 0,
+                "disponibili", 0,
+                "vendute", 0,
+                "valore", 0.0
+            );
+        }
+
+        return processaReportDettaglio(response.getReport());
     }
 
     public Map<String, Object> getReportOnePieceSealed() {
         log.debug("Fetching report One Piece sealed");
         ReportRequest request = new ReportRequest("ONEPIECE", "SEALED");
-        return webClient.post()
+
+        ReportResponseDTO response = webClient.post()
                 .uri("/api/v1/report/creareport")
                 .bodyValue(request)
                 .retrieve()
-                .bodyToMono(Map.class)
+                .bodyToMono(ReportResponseDTO.class)
                 .block();
+
+        if (response == null || response.getReport() == null) {
+            return Map.of(
+                "totale", 0,
+                "disponibili", 0,
+                "venduti", 0,
+                "valore", 0.0
+            );
+        }
+
+        return processaReportDettaglio(response.getReport());
     }
 
     public Map<String, Object> getProfittiTotali() {
         log.debug("Fetching profitti totali");
         ReportRequest request = new ReportRequest("TUTTO", null);
-        return webClient.post()
+
+        ReportResponseDTO response = webClient.post()
                 .uri("/api/v1/report/creareport")
                 .bodyValue(request)
                 .retrieve()
-                .bodyToMono(Map.class)
+                .bodyToMono(ReportResponseDTO.class)
                 .block();
+
+        if (response == null || response.getReport() == null) {
+            return Map.of(
+                "totaleSpeso", 0.0,
+                "totaleIncassato", 0.0,
+                "profittoNetto", 0.0
+            );
+        }
+
+        return processaProfitti(response.getReport());
     }
 
     public Map<String, Object> getProfittiPokemon() {
         log.debug("Fetching profitti Pokemon");
         ReportRequest request = new ReportRequest("POKEMON", null);
-        return webClient.post()
+
+        ReportResponseDTO response = webClient.post()
                 .uri("/api/v1/report/creareport")
                 .bodyValue(request)
                 .retrieve()
-                .bodyToMono(Map.class)
+                .bodyToMono(ReportResponseDTO.class)
                 .block();
+
+        if (response == null || response.getReport() == null) {
+            return Map.of(
+                "totaleSpeso", 0.0,
+                "totaleIncassato", 0.0,
+                "profittoNetto", 0.0
+            );
+        }
+
+        return processaProfitti(response.getReport());
     }
 
     public Map<String, Object> getProfittiOnePiece() {
         log.debug("Fetching profitti One Piece");
         ReportRequest request = new ReportRequest("ONEPIECE", null);
-        return webClient.post()
+
+        ReportResponseDTO response = webClient.post()
                 .uri("/api/v1/report/creareport")
                 .bodyValue(request)
                 .retrieve()
-                .bodyToMono(Map.class)
+                .bodyToMono(ReportResponseDTO.class)
                 .block();
+
+        if (response == null || response.getReport() == null) {
+            return Map.of(
+                "totaleSpeso", 0.0,
+                "totaleIncassato", 0.0,
+                "profittoNetto", 0.0
+            );
+        }
+
+        return processaProfitti(response.getReport());
     }
 
     /**
@@ -297,6 +402,112 @@ public class ReportisticaService {
 
         log.debug("Statistiche calcolate: {}", recap);
         return recap;
+    }
+
+    /**
+     * Processa report semplice (generale) - totaleProdotti, disponibili, venduti, valoreTotale
+     */
+    private Map<String, Object> processaReportSemplice(List<ReportItemDTO> items) {
+        log.debug("Processando report semplice per {} items", items.size());
+
+        int totaleProdotti = items.size();
+        int disponibili = 0;
+        int venduti = 0;
+        double valoreTotale = 0.0;
+
+        for (ReportItemDTO item : items) {
+            // Conta disponibili/venduti basato su statoAcquisto
+            if ("acquistato".equalsIgnoreCase(item.getStatoAcquisto())) {
+                disponibili++;
+            } else if ("venduto".equalsIgnoreCase(item.getStatoAcquisto())) {
+                venduti++;
+            }
+
+            // Somma il valore (prezzo acquisto)
+            if (item.getPrezzoAcquisto() != null) {
+                valoreTotale += item.getPrezzoAcquisto();
+            }
+        }
+
+        return Map.of(
+            "totaleProdotti", totaleProdotti,
+            "disponibili", disponibili,
+            "venduti", venduti,
+            "valoreTotale", valoreTotale
+        );
+    }
+
+    /**
+     * Processa report dettaglio (cards/sealed) - totale, disponibili, vendute, valore
+     */
+    private Map<String, Object> processaReportDettaglio(List<ReportItemDTO> items) {
+        log.debug("Processando report dettaglio per {} items", items.size());
+
+        int totale = items.size();
+        int disponibili = 0;
+        int vendute = 0;
+        double valore = 0.0;
+
+        for (ReportItemDTO item : items) {
+            // Conta disponibili/vendute basato su statoAcquisto
+            if ("acquistato".equalsIgnoreCase(item.getStatoAcquisto())) {
+                disponibili++;
+                // Il valore conta solo i disponibili (inventario attuale)
+                if (item.getPrezzoAcquisto() != null) {
+                    valore += item.getPrezzoAcquisto();
+                }
+            } else if ("venduto".equalsIgnoreCase(item.getStatoAcquisto())) {
+                vendute++;
+            }
+        }
+
+        return Map.of(
+            "totale", totale,
+            "disponibili", disponibili,
+            "vendute", vendute,
+            "valore", valore
+        );
+    }
+
+    /**
+     * Processa profitti - totaleSpeso, totaleIncassato, profittoNetto
+     */
+    private Map<String, Object> processaProfitti(List<ReportItemDTO> items) {
+        log.debug("Processando profitti per {} items", items.size());
+
+        double totaleSpeso = 0.0;
+        double totaleIncassato = 0.0;
+        double totaleCostiVendita = 0.0;
+
+        for (ReportItemDTO item : items) {
+            // Somma sempre il prezzo di acquisto (speso)
+            if (item.getPrezzoAcquisto() != null) {
+                totaleSpeso += item.getPrezzoAcquisto();
+            }
+
+            // Se venduto, aggiungi incassi
+            if ("venduto".equalsIgnoreCase(item.getStatoAcquisto()) && item.getVendita() != null) {
+                Map<String, Object> vendita = item.getVendita();
+
+                Object prezzoVenditaObj = vendita.get("prezzoVendita");
+                if (prezzoVenditaObj != null) {
+                    totaleIncassato += convertToBigDecimal(prezzoVenditaObj).doubleValue();
+                }
+
+                Object costiVenditaObj = vendita.get("costiVendita");
+                if (costiVenditaObj != null) {
+                    totaleCostiVendita += convertToBigDecimal(costiVenditaObj).doubleValue();
+                }
+            }
+        }
+
+        double profittoNetto = totaleIncassato - totaleCostiVendita - totaleSpeso;
+
+        return Map.of(
+            "totaleSpeso", totaleSpeso,
+            "totaleIncassato", totaleIncassato,
+            "profittoNetto", profittoNetto
+        );
     }
 
     /**

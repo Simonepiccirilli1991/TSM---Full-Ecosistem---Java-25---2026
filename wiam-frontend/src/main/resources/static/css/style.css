@@ -88,3 +88,167 @@ body {
     justify-content: center;
     z-index: 9999;
 }
+
+/* ========================================
+   STATO PRODOTTI - Visualizzazione Distintiva
+   ======================================== */
+
+/* Righe tabella con colori diversi per stato */
+.row-disponibile {
+    background-color: rgba(25, 135, 84, 0.05) !important;
+    border-left: 4px solid #198754;
+}
+
+.row-disponibile:hover {
+    background-color: rgba(25, 135, 84, 0.15) !important;
+}
+
+.row-venduto {
+    background-color: rgba(220, 53, 69, 0.05) !important;
+    border-left: 4px solid #dc3545;
+    opacity: 0.85;
+}
+
+.row-venduto:hover {
+    background-color: rgba(220, 53, 69, 0.15) !important;
+    opacity: 1;
+}
+
+/* Badge stato prodotto - versione migliorata */
+.badge-stato {
+    font-size: 0.9rem;
+    padding: 0.5em 1em;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+}
+
+.badge-disponibile {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    box-shadow: 0 2px 4px rgba(40, 167, 69, 0.3);
+}
+
+.badge-venduto {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: white;
+    box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
+    text-decoration: line-through;
+}
+
+.badge-non-disponibile {
+    background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+    color: white;
+    box-shadow: 0 2px 4px rgba(108, 117, 125, 0.3);
+}
+
+/* Icone stato */
+.stato-icon {
+    font-size: 1.1em;
+}
+
+/* Filtri stato */
+.filter-buttons {
+    margin-bottom: 1rem;
+}
+
+.filter-btn {
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.filter-btn.active {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Contatore stato nella tabella */
+.stato-counter {
+    display: inline-block;
+    padding: 0.25em 0.6em;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 0.25rem;
+    margin-left: 0.5rem;
+}
+
+.counter-disponibile {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+.counter-venduto {
+    background-color: #f8d7da;
+    color: #842029;
+}
+
+/* Animazione per cambio stato */
+@keyframes statusChange {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.badge-stato.changed {
+    animation: statusChange 0.3s ease-in-out;
+}
+
+/* Tooltip per info aggiuntive */
+.stato-tooltip {
+    position: relative;
+    cursor: help;
+}
+
+/* Disabilita visualmente le azioni per prodotti venduti */
+.row-venduto .btn-success,
+.row-venduto .btn-warning {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Mantieni attivo solo il bottone elimina per venduti */
+.row-venduto .btn-danger {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Stile per riepilogo contatori in alto */
+.stato-summary {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.stato-summary-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+}
+
+.summary-disponibile {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    border: 2px solid #badbcc;
+}
+
+.summary-venduto {
+    background-color: #f8d7da;
+    color: #842029;
+    border: 2px solid #f5c2c7;
+}
+
+.summary-totale {
+    background-color: #cfe2ff;
+    color: #084298;
+    border: 2px solid #b6d4fe;
+}
+
